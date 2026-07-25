@@ -6,8 +6,9 @@
     <img src="./.github/logo-light.svg" width="714" alt="RolloutCtrl logo">
   </picture>
 </p>
-<img alt="Static Badge" src="https://img.shields.io/badge/open_source-yes-brightgreen?style=flat">
-<img alt="Static Badge" src="https://img.shields.io/badge/license-APGL_3.0-orange?style=flat">
+
+[![Publish Docker Images to GHCR](https://github.com/rolloutctrl/rolloutctrl/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/rolloutctrl/rolloutctrl/actions/workflows/docker-publish.yml) [![Open Source](https://img.shields.io/badge/open_source-yes-brightgreen?style=flat)](https://github.com/rolloutctrl/rolloutctrl) [![License](https://img.shields.io/badge/license-AGPL_3.0-orange?style=flat)](LICENSE)
+
 </div>
 
 # RolloutCtrl
