@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-mantine-color-scheme=dark], [data-mantine-color-scheme=dark] *));
+
+@theme {
+  /* Colors */
+  --color-accent: #0897b0;
+  --color-rollout: #00b794;
+
+  --color-dark-surface: #2D2E35;
+  --color-dark: #22242A;
+  --color-supa-dark: #1d1f24;
+
+  /* Typography */
+  --font-display: "Inter", sans-serif;
+
+  /* Spacing */
+  --spacing-18: 4.5rem;
+}
+
+[data-mantine-color-scheme='dark'] .mantine-Switch-track {
+  background-color: var(--color-supa-dark) !important;
+}
+
+[data-mantine-color-scheme='dark'] .mantine-Switch-input:checked + .mantine-Switch-track {
+  background-color: #0EA5A4 !important;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.space-grotesk-normal {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.space-grotesk-medium {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.space-grotesk-semibold {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.space-grotesk-bold {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}

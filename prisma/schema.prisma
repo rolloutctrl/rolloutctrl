@@ -1,0 +1,738 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/common/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id          String  @id @default(cuid()) @map("_id")
+  name        String
+  description String?
+
+  url          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users         User[]
+  projects      Project[]
+  auditLogs     AuditLog[]
+  notifications Notification[]
+}
+
+model Project {
+  id          String   @id @default(cuid()) @map("_id")
+  name        String
+  slug        String
+  description String?
+  apiKeys     ApiKey[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members        ProjectMember[]
+  environments   Environment[]
+  featureFlags   FeatureFlag[]
+  segments       Segment[]
+  actions        Action[]
+  metrics        MetricsBucket[]
+  organization   Organization?   @relation(fields: [organizationId], references: [id])
+  organizationId String?
+  exposureEvents ExposureEvent[]
+  auditLogs      AuditLog[]
+
+  @@unique([slug, organizationId])
+}
+
+model ApiKey {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId String
+
+  name    String
+  keyHash String @unique
+
+  previewKey String
+
+  environmentId String?
+
+  type ApiKeyType
+
+  allowedOrigins String[]
+
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+}
+
+model ProjectMember {
+  id        String @id @default(cuid()) @map("_id")
+  projectId String
+  userId    String
+
+  role TeamRole
+
+  project Project @relation(fields: [projectId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+}
+
+model User {
+  id       String  @id @default(cuid()) @map("_id")
+  email    String  @unique
+  password String?
+  name     String?
+  avatar   String?
+  bio      String?
+
+  isActive  Boolean   @default(true)
+  updatedAt DateTime  @updatedAt
+  joinedAt  DateTime?
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  organizationRole OrganizationRole
+
+  sessions       Session[]
+  projectMembers ProjectMember[]
+  auditLogs      AuditLog[]
+  userIdentities UserIdentity[]
+  notifications  Notification[]
+}
+
+model UserIdentity {
+  id String @id @default(cuid()) @map("_id")
+
+  userId String
+
+  provider AuthProvider
+
+  providerUserId String
+
+  providerEmail    String?
+  providerUsername String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@index([userId])
+}
+
+model Session {
+  id               String @id @default(uuid())
+  userId           String
+  refreshTokenHash String
+
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  lastUsedAt DateTime?
+
+  ip         String?
+  userAgent  String?
+  deviceName String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+enum OrganizationRole {
+  OWNER
+  MEMBER
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  DEVELOPER
+  VIEWER
+}
+
+model Environment {
+  id        String @id @default(cuid()) @map("_id")
+  projectId String
+
+  name String // development, staging, production
+
+  isSystem Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  version   Int      @default(1)
+
+  approveRequired Boolean @default(false)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  featureFlags FeatureFlagEnvironment[]
+
+  @@unique([projectId, name])
+  @@index([projectId])
+}
+
+model FeatureFlag {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId String
+
+  key         String
+  description String?
+
+  archived   Boolean @default(false)
+  isFavorite Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdById    String
+  createdByName  String
+  createdByEmail String
+
+  environments   FeatureFlagEnvironment[]
+  variants       Variant[]
+  exposureEvents ExposureEvent[]
+  metrics        MetricsBucket[]
+
+  @@unique([projectId, key])
+  @@index([projectId])
+  @@map("feature_flags")
+}
+
+model FeatureFlagEnvironment {
+  id String @id @default(cuid()) @map("_id")
+
+  featureFlagId String
+  environmentId String
+
+  enabled Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  featureFlag FeatureFlag @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+
+  environment Environment @relation(fields: [environmentId], references: [id], onDelete: Cascade)
+
+  strategies     Strategy[]
+  exposureEvents ExposureEvent[]
+  metrics        MetricsBucket[]
+
+  @@unique([featureFlagId, environmentId])
+  @@index([featureFlagId])
+  @@index([environmentId])
+  @@map("feature_flag_environments")
+}
+
+model Strategy {
+  id String @id @default(cuid()) @map("_id")
+
+  isDefault Boolean @default(false)
+
+  featureFlagEnvironmentId String
+
+  name    String?
+  enabled Boolean @default(true)
+
+  rolloutPercentage      Int?
+  rolloutStickinessField String?
+
+  timezone String?
+
+  startsAt DateTime?
+
+  endsAt DateTime?
+
+  priority Int @default(0)
+
+  matchType MatchType @default(ALL)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isArchived Boolean @default(false)
+
+  featureFlagEnvironment FeatureFlagEnvironment @relation(fields: [featureFlagEnvironmentId], references: [id], onDelete: Cascade)
+
+  rules StrategyRule[]
+
+  strategyVariants StrategyVariant[]
+
+  segments       Segment[]
+  exposureEvents ExposureEvent[]
+  metrics        MetricsBucket[]
+
+  @@index([featureFlagEnvironmentId])
+  @@map("strategies")
+}
+
+model StrategyRule {
+  id String @id @default(cuid()) @map("_id")
+
+  strategyId String
+
+  field String
+
+  operator Operator
+
+  not Boolean @default(false)
+
+  value Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  strategy Strategy @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+
+  @@index([strategyId])
+  @@map("strategy_rules")
+}
+
+model Variant {
+  id String @id @default(cuid()) @map("_id")
+
+  name String
+
+  description String?
+
+  payloadType VariantPayloadType?
+  payload     Json?
+
+  colorTag String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isArchived Boolean @default(false)
+
+  featureFlagId String
+  featureFlag   FeatureFlag @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+
+  strategyVariants StrategyVariant[]
+  exposureEvents   ExposureEvent[]
+  metrics          MetricsBucket[]
+
+  @@index([featureFlagId])
+}
+
+model StrategyVariant {
+  id String @id @default(cuid()) @map("_id")
+
+  strategyId String
+  variantId  String
+
+  weight Int
+
+  isCustomWeight Boolean @default(false)
+
+  isArchived Boolean @default(false)
+
+  strategy Strategy @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  variant  Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([strategyId, variantId])
+  @@index([strategyId])
+  @@index([variantId])
+}
+
+enum VariantPayloadType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+}
+
+model Segment {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId String
+
+  key         String
+  name        String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isArchived Boolean @default(false)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  strategies       Strategy[]
+  actionStrategies ActionStrategy[]
+
+  rules SegmentRule[]
+
+  @@unique([projectId, key])
+  @@index([projectId])
+  @@map("segments")
+}
+
+model SegmentRule {
+  id String @id @default(cuid()) @map("_id")
+
+  segmentId String
+
+  field String
+
+  operator Operator
+
+  not Boolean @default(false)
+
+  value Json
+
+  priority Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  segment Segment @relation(fields: [segmentId], references: [id], onDelete: Cascade)
+
+  @@index([segmentId])
+  @@map("segment_rules")
+}
+
+model Action {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId String
+
+  key String
+
+  description String?
+
+  enabled Boolean @default(true)
+
+  defaultEffect ActionEffect @default(DENY)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  strategies ActionStrategy[]
+
+  @@unique([projectId, key])
+  @@index([projectId])
+  @@map("actions")
+}
+
+model ActionStrategy {
+  id String @id @default(cuid()) @map("_id")
+
+  actionId String
+
+  effect ActionEffect
+  priority Int @default(0)
+
+  enabled Boolean @default(true)
+
+  segments Segment[]
+  matchType MatchType @default(ALL)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  action Action @relation(fields: [actionId], references: [id], onDelete: Cascade)
+
+  rules ActionStrategyRule[]
+
+  @@index([actionId])
+  @@map("action_strategies")
+}
+
+model ActionStrategyRule {
+  id String @id @default(cuid()) @map("_id")
+
+  strategyId String
+  field String
+
+  operator Operator
+
+  value Json
+
+  not Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  strategy ActionStrategy @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+
+  @@index([strategyId])
+  @@map("action_strategy_rules")
+}
+
+model ExposureEvent {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId                String
+  featureFlagEnvironmentId String
+  featureFlagId            String
+
+  strategyId String?
+  variantId  String?
+
+  contextKey      String?
+  stickinessField String?
+
+  project                Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  featureFlag            FeatureFlag            @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+  featureFlagEnvironment FeatureFlagEnvironment @relation(fields: [featureFlagEnvironmentId], references: [id], onDelete: Cascade)
+  strategy               Strategy?              @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  variant                Variant?               @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([featureFlagId, createdAt])
+  @@index([variantId, createdAt])
+  @@index([strategyId, createdAt])
+  @@index([featureFlagId, contextKey])
+  @@index([featureFlagEnvironmentId, createdAt])
+  @@index([projectId, createdAt])
+  @@index([createdAt])
+}
+
+model MetricsBucket {
+  id String @id @default(cuid()) @map("_id")
+
+  projectId                String
+  featureFlagEnvironmentId String
+
+  featureFlagId String?
+  strategyId    String?
+  variantId     String?
+
+  type MetricType
+
+  count Int @default(0)
+
+  bucketDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project                Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  featureFlagEnvironment FeatureFlagEnvironment @relation(fields: [featureFlagEnvironmentId], references: [id], onDelete: Cascade)
+
+  featureFlag FeatureFlag? @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+  strategy    Strategy?    @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  variant     Variant?     @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([type, featureFlagEnvironmentId, featureFlagId, strategyId, variantId, bucketDate])
+  @@index([projectId, featureFlagEnvironmentId])
+  @@index([featureFlagId, bucketDate])
+  @@index([strategyId, bucketDate])
+  @@index([variantId, bucketDate])
+  @@index([type, bucketDate])
+}
+
+enum MetricType {
+  FLAG_EXPOSURE
+  STRATEGY_MATCH
+  VARIANT_EXPOSURE
+}
+
+enum SegmentMatchType {
+  ANY
+  ALL
+}
+
+enum ActionEffect {
+  ALLOW
+  DENY
+}
+
+enum MatchType {
+  ALL
+  ANY
+}
+
+enum ApiKeyType {
+  CLIENT
+  SERVER
+}
+
+enum Operator {
+  EQUALS
+  IN
+  INCLUDES
+  GT
+  LT
+  GTE
+  LTE
+  CONTAINS
+  STARTS_WITH
+  ENDS_WITH
+}
+
+model AuditLog {
+  id String @id @default(cuid()) @map("_id")
+
+  organizationId String
+
+  projectId String?
+
+  userId String?
+
+  action AuditAction
+
+  resourceType ResourceType
+  resourceId   String
+  resourceName String?
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  project      Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user         User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+  @@index([resourceType, resourceId])
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  userId         String
+  organizationId String?
+
+  type     NotificationType
+  severity NotificationSeverity
+  status   NotificationStatus   @default(UNREAD)
+
+  title   String
+  message String
+
+  link String?
+  actorUserId String?
+  entityType String?
+  entityId String?
+
+  metadata Json?
+
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  groupKey String?
+  count    Int     @default(1)
+
+  user                   User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization           Organization?          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  notificationDeliveries NotificationDelivery[]
+
+  @@index([userId, status])
+  @@index([organizationId])
+}
+
+model NotificationDelivery {
+  id String @id @default(cuid())
+
+  notificationId String
+  channel        NotificationChannel
+
+  status NotificationDeliveryStatus @default(PENDING)
+
+  sentAt DateTime?
+  error  String?
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@unique([notificationId, channel])
+  @@index([status])
+  @@index([channel])
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  SLACK
+  TELEGRAM
+  WEBHOOK
+}
+
+enum NotificationDeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum NotificationType {
+  INVITATION
+  APPROVAL
+  FEATURE_FLAG
+  ORGANIZATION
+  PROJECT
+  API_KEY
+  BILLING
+  SECURITY
+  SYSTEM
+}
+
+enum NotificationSeverity {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  ENABLE
+  DISABLE
+  REVOKE
+  ORGANIZATION_CREATED
+  MEMBER_INVITED
+  MEMBER_JOINED
+  MEMBER_DECLINED
+  MEMBER_REMOVED
+  MEMBER_ROLE_CHANGED
+  OWNERSHIP_TRANSFERRED
+}
+
+enum ResourceType {
+  FLAG
+  ACTION
+  STRATEGY
+  SEGMENT
+  VARIANT
+  STRATEGY_VARIANT
+  ENVIRONMENT
+  API_KEY
+  PROJECT
+  ORGANIZATION
+}
+
+enum AuthProvider {
+  LOCAL
+  GITHUB
+}

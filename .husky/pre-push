@@ -1,0 +1,4 @@
+echo "Building backend..."
+yarn build
+echo "Building frontend..."
+yarn --cwd frontend build

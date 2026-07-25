@@ -1,0 +1,22 @@
+[
+  {"key": "dark-mode", "description": "Enable dark theme UI across the entire application"},
+  {"key": "new-onboarding-flow", "description": "Redesigned user onboarding experience with interactive tutorials"},
+  {"key": "ai-code-assistant", "description": "AI-powered code suggestions and autocompletion"},
+  {"key": "real-time-collaboration", "description": "Live editing and presence indicators for team collaboration"},
+  {"key": "advanced-analytics-dashboard", "description": "Enhanced analytics with custom reports and data visualization"},
+  {"key": "biometric-auth", "description": "Fingerprint and face recognition login support"},
+  {"key": "voice-commands", "description": "Control application features using voice input"},
+  {"key": "offline-mode", "description": "Work without internet connection with local sync"},
+  {"key": "automated-backups", "description": "Scheduled automatic backups to cloud storage"},
+  {"key": "two-factor-auth", "description": "Additional security layer with OTP verification"},
+  {"key": "smart-notifications", "description": "Context-aware notification prioritization and grouping"},
+  {"key": "drag-drop-upload", "description": "Upload files by dragging them into the browser window"},
+  {"key": "keyboard-shortcuts", "description": "Customizable keyboard shortcuts for power users"},
+  {"key": "social-media-integration", "description": "Share content directly to major social platforms"},
+  {"key": "export-to-pdf", "description": "Generate and download PDF reports from any data view"},
+  {"key": "bulk-edit-mode", "description": "Edit multiple items simultaneously with batch operations"},
+  {"key": "webhook-endpoints", "description": "Configure custom webhooks for real-time event notifications"},
+  {"key": "role-based-access", "description": "Granular permissions based on user roles and teams"},
+  {"key": "experimental-editor", "description": "Beta version of the new rich text editor with advanced features"},
+  {"key": "performance-optimizer", "description": "Automatically optimize and cache frequently accessed data"}
+]

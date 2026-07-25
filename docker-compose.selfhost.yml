@@ -1,0 +1,77 @@
+services:
+  rolloutctrl-postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rolloutctrl
+    volumes:
+      - rolloutctrl_postgres_data:/var/lib/postgresql
+    networks:
+      - rolloutctrl-internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rolloutctrl-redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - rolloutctrl_redis_data:/data
+    networks:
+      - rolloutctrl-internal
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rollout-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@rolloutctrl-postgres:5432/rolloutctrl
+      REDIS_HOST: rolloutctrl-redis
+      REDIS_PORT: "6379"
+      JWT_ACCESS_TOKEN_SECRET: ${JWT_ACCESS_TOKEN_SECRET:-dev-access-secret-change-me}
+      JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET:-dev-refresh-secret-change-me}
+      JWT_ACCESS_TOKEN_EXPIRATION_TIME: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME:-15m}
+      JWT_REFRESH_TOKEN_EXPIRATION_TIME: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME:-7d}
+      USER_PASSWORD_SALT_ROUNDS: ${USER_PASSWORD_SALT_ROUNDS:-5}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173}
+      NODE_ENV: production
+    depends_on:
+      rolloutctrl-postgres:
+        condition: service_healthy
+      rolloutctrl-redis:
+        condition: service_healthy
+    networks:
+      - rolloutctrl-internal
+
+  rollout-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - rollout-backend
+    networks:
+      - rolloutctrl-internal
+
+volumes:
+  rolloutctrl_postgres_data:
+  rolloutctrl_redis_data:
+
+networks:
+  rolloutctrl-internal:
+    driver: bridge

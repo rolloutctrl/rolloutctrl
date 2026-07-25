@@ -1,0 +1,1 @@
+export { SegmentsTable } from './ui/SegmentsTable';
