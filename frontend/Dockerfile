@@ -3,7 +3,11 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn config set registry https://registry.npmjs.org && \
+    yarn install \
+      --frozen-lockfile \
+      --network-timeout 600000 \
+      --prefer-offline
 
 COPY . .
 
