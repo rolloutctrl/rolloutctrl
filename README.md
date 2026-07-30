@@ -129,9 +129,12 @@ docker compose -f docker-compose.selfhost.yml up -d --build
 | [Installation](docs/installation.md)       | Local development setup, prerequisites, project structure             |
 | [Docker Deployment](docs/docker.md)        | Self-host deployment with Docker Compose, architecture, env vars      |
 | [Feature Flags](docs/feature-flags.md)     | Core concepts: flags, strategies, segments, variants, evaluation flow |
+| [Variants](docs/variants.md)               | Variants & A/B testing: creation, weights, strategy assignment, API   |
+| [Experiments](docs/experiments.md)         | Running experiments with third-party analytics (GA, PostHog, Amplitude) |
 | [SDK](docs/sdk.md)                         | Client & Server SDKs, evaluation API, metrics reporting               |
 | [API Reference](docs/api.md)               | Full management & SDK endpoint documentation                          |
 | [Permissions & Roles](docs/permissions.md) | Organization & team roles, permission codes, RBAC enforcement         |
+| [Roadmap](ROADMAP.md)                      | Project roadmap, planned features, and progress                       |
 
 ---
 

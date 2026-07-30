@@ -7,6 +7,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
