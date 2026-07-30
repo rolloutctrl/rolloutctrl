@@ -1227,10 +1227,10 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.1.1.tgz#0c4230a9eed49d4589c967e2d9c0d9d60a23971e"
   integrity sha512-RbJRS4UWQFkzHTTwVymMTUv8EqYhOp8dOOviLj2ugtTiXRaRQS7GLGxZTLL1jWhMeoSCf5zmcZkqTl9IiYfXcQ==
 
-"@rolloutctrl/evaluator@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@rolloutctrl/evaluator/-/evaluator-0.0.8.tgz#21fee3291d190c274b04cc27b9b29df8ffb0d2d8"
-  integrity sha512-GFF0C/OHlgBMWIdrGEjnSxKHsXI7FyAYA3JWy+idLNwtnQy3OHekIKbBSQsLgGMnGqB3Myt+5XfF3B/jtafBIA==
+"@rolloutctrl/evaluator@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rolloutctrl/evaluator/-/evaluator-1.0.0.tgz#87423369aac103f667ab7950680acc9fc3ee3d64"
+  integrity sha512-F+sTRkxaRa0ZUIMUvCofXzBixpaVCUScmG4RVCAjNsEEpCxRaJicTSSHqWuXV8FPuoCuIfM9r+KdjtXX2ieDyg==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.10"
@@ -6486,10 +6486,10 @@ typescript@5.7.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.2.tgz#3169cf8c4c8a828cde53ba9ecb3d2b1d5dd67be6"
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
-typescript@5.9.3:
-  version "5.9.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
-  integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
+typescript@6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.3.tgz#90251dc007916e972786cb94d74d15b185577d21"
+  integrity sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==
 
 uglify-js@^3.1.4:
   version "3.19.3"
