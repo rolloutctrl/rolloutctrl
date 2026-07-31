@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Accordion, Badge, Button, Group, Stack, Text } from '@mantine/core';
+import {
+  Accordion,
+  Badge,
+  Button,
+  Group,
+  Code,
+  Stack,
+  Text,
+} from '@mantine/core';
 import type { FeatureFlag } from '@/entities/FeatureFlag';
 import type { FeatureFlagEnvironment } from '@/entities/FeatureFlagEnvironment';
 import { StrategyList } from './StrategyList';
@@ -11,6 +19,7 @@ import { PermissionCode } from '@/shared/types/enums';
 import { validateStrategies } from '../lib/validateStrategies';
 import type { Strategy } from '@/entities/Strategy';
 import { Link, useSearchParams } from 'react-router-dom';
+import { InfoTooltip } from '@/shared/ui';
 
 type StrategyAccordionItemProps = {
   environment: FeatureFlagEnvironment;
@@ -50,14 +59,23 @@ const StrategyAccordionItem = ({
               <RequiredProjectPermissionsWrapper
                 permissions={PermissionCode.FLAG_TOGGLE}
               >
-                <div onClick={(e) => e.stopPropagation()}>
-                  <ToggleFlagEnable
-                    projectId={featureFlag.projectId}
-                    featureFlagEnvironment={environment}
-                    withThumbIndicator={false}
-                    disabled={featureFlag.archived}
-                  />
-                </div>
+                <Group gap="xs">
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <ToggleFlagEnable
+                      projectId={featureFlag.projectId}
+                      featureFlagEnvironment={environment}
+                      withThumbIndicator={false}
+                      disabled={featureFlag.archived}
+                    />
+                  </div>
+                  <InfoTooltip>
+                    <Text size="sm">
+                      Enable or disable the flag for this environment. When
+                      disabled, all strategies are ignored and the flag always
+                      returns <Code>false</Code>.
+                    </Text>
+                  </InfoTooltip>
+                </Group>
               </RequiredProjectPermissionsWrapper>
             </div>
 

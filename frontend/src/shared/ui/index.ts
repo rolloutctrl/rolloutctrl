@@ -18,4 +18,4 @@ export { TagsInputField } from './FormikFields/TagsInputField';
 export { SelectCreatableField } from './FormikFields/SelectCreatableField';
 export { NumberField } from './FormikFields/NumberField';
 export { ScrollToTop } from './ScrollToTop';
-
+export { InfoTooltip } from './InfoTooltip';

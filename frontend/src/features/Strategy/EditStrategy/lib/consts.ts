@@ -13,7 +13,6 @@ export const editStrategyFormDefaultState: EditStrategyFormState = {
   segmentIds: [],
   priority: undefined,
   rules: [],
-  // variants: [],
 };
 
 export const editStrategyFormSchema = yup.object().shape({
@@ -98,21 +97,4 @@ export const editStrategyFormSchema = yup.object().shape({
       }),
     )
     .optional(),
-  // variants: yup
-  //   .array()
-  //   .of(
-  //     yup.object().shape({
-  //       name: yup.string().required('Variant name is required'),
-  //       description: yup.string().optional(),
-  //       weight: yup
-  //         .number()
-  //         .min(0, 'Weight must be between 0 and 100')
-  //         .max(100, 'Weight must be between 0 and 100')
-  //         .required('Weight is required'),
-  //       payload: yup.string().optional(),
-  //       payloadType: yup.string().optional(),
-  //       isDefault: yup.boolean().required(),
-  //     }),
-  //   )
-  //   .optional(),
 });

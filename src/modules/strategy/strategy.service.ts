@@ -2,7 +2,6 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
-  // ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -120,7 +119,27 @@ export class StrategyService {
           _max: { priority: true },
         });
 
-        const priority = dto.priority ?? (maxPriority._max.priority ?? -1) + 1;
+        // Default strategies always have zero priority so they stay strictly
+        // below all other strategies in the environment. Re-assign sequential
+        // priorities (1, 2, ...) to existing strategies to guarantee the
+        // default is the lowest and to compact any gaps left by deletions.
+        if (dto.isDefault) {
+          const existing = await prisma.strategy.findMany({
+            where: { featureFlagEnvironmentId },
+            orderBy: { priority: 'asc' },
+            select: { id: true },
+          });
+          for (let i = 0; i < existing.length; i++) {
+            await prisma.strategy.update({
+              where: { id: existing[i].id },
+              data: { priority: i + 1 },
+            });
+          }
+        }
+
+        const priority = dto.isDefault
+          ? 0
+          : (dto.priority ?? (maxPriority._max.priority ?? -1) + 1);
 
         const strategy = await prisma.strategy.create({
           data: {

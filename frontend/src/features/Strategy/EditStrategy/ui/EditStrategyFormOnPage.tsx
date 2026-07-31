@@ -137,16 +137,6 @@ const EditStrategyFormContent = () => {
                   className="w-1/2"
                   checkIconPosition="right"
                 />
-                {/* <SegmentedControl
-                  value={selectedPreset}
-                  onChange={handlePresetChange}
-                  data={strategyPresetOptions}
-                  fullWidth
-                  disabled={isPending}
-                  classNames={{
-                    root: 'dark:!bg-dark-surface/30',
-                  }}
-                /> */}
                 <Text size="xs" c="dimmed" mt={6}>
                   {strategyPresetDescriptions[selectedPreset]}
                 </Text>
@@ -244,6 +234,7 @@ const EditStrategyFormContent = () => {
                     variant="transparent"
                     size="sm"
                     leftSection={<IconCalendar size={15} />}
+                    color="rollout.6"
                     rightSection={
                       scheduleOpen ? (
                         <IconChevronUp size={14} />

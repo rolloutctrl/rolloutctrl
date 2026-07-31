@@ -59,7 +59,7 @@ export const SegmentsMultiSelectField: FC<SegmentsMultiSelectFieldProps> = ({
               <HoverCard
                 key={option?.value as string}
                 width={280}
-                shadow="md"
+                shadow="none"
                 withinPortal
                 openDelay={200}
                 closeDelay={100}

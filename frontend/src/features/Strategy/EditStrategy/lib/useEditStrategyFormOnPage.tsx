@@ -26,15 +26,6 @@ export const useEditStrategyFormOnPage = () => {
   const { data: currentStrategy, isLoading: isLoadingStrategy } =
     useGetStrategyById(strategyId);
 
-  // const strategy = useMemo(() => {
-  //   if (!currentFlag) return undefined;
-  //   for (const env of currentFlag.environments) {
-  //     const found = env.strategies.find((s) => s.id === strategyId);
-  //     if (found) return found;
-  //   }
-  //   return undefined;
-  // }, [currentFlag, strategyId]);
-
   const initialValues = useMemo<EditStrategyFormState>(() => {
     if (!currentStrategy) return editStrategyFormDefaultState;
 
@@ -84,14 +75,6 @@ export const useEditStrategyFormOnPage = () => {
           not: r.not,
         };
       }),
-      // variants: (currentStrategy.variants || [])?.map((v) => ({
-      //   name: v.name,
-      //   description: v.description,
-      //   weight: v.weight,
-      //   payload: v.payload ?? '',
-      //   payloadType: v.payloadType ?? VariantPayloadType.STRING,
-      //   isDefault: v.isDefault,
-      // })),
     };
   }, [currentStrategy, projectId]);
 

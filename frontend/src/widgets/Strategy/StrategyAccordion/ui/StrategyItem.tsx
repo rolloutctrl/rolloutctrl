@@ -8,6 +8,7 @@ import {
   Divider,
   Menu,
   type MantineColorScheme,
+  Code,
 } from '@mantine/core';
 import {
   IconDotsVertical,
@@ -17,7 +18,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react';
 import type { Strategy } from '@/entities/Strategy';
-import { RuleItem } from '@/shared/ui';
+import { InfoTooltip, RuleItem } from '@/shared/ui';
 import { RequiredProjectPermissionsWrapper } from '@/features/Auth/PrivateRoute';
 import { PermissionCode } from '@/shared/types/enums';
 import { Link, useParams } from 'react-router-dom';
@@ -120,6 +121,14 @@ export const StrategyItem = ({
                 label={strategy.enabled ? 'Strategy ON' : 'Strategy OFF'}
                 withThumbIndicator={false}
               />
+              <InfoTooltip>
+                <Text size="sm">
+                  Toggle whether this strategy participates in flag evaluation.
+                  When off, it's ignored and the next strategy by priority is
+                  considered. If no enabled strategy matches, the flag returns
+                  its default value <Code>false</Code>.
+                </Text>
+              </InfoTooltip>
             </Group>
           </Group>
 

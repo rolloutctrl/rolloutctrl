@@ -31,11 +31,11 @@ export const STRATEGY_PRESET_DEFAULTS: Record<
   },
   gradual: {
     rolloutPercentage: 25,
-    rolloutStickinessField: 'userId',
+    rolloutStickinessField: 'key',
   },
   scheduled: {
     rolloutPercentage: 100,
-    rolloutStickinessField: 'userId',
+    rolloutStickinessField: 'key',
   },
 };
 

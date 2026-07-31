@@ -111,9 +111,6 @@ export const CreateStrategyFormOnPage = ({
           <Form>
             <Stack gap="md">
               <div>
-                {/* <Text size="0.875rem" fw={600} mb={6}>
-                  Template
-                </Text> */}
                 <Select
                   label="Template"
                   value={selectedPreset}
@@ -123,16 +120,6 @@ export const CreateStrategyFormOnPage = ({
                   className="w-1/2"
                   checkIconPosition="right"
                 />
-                {/* <SegmentedControl
-                  value={selectedPreset}
-                  onChange={handlePresetChange}
-                  data={strategyPresetOptions}
-                  fullWidth
-                  disabled={isPending}
-                  classNames={{
-                    root: 'dark:!bg-dark-surface/30',
-                  }}
-                /> */}
                 <Text size="xs" c="dimmed" mt={6}>
                   {strategyPresetDescriptions[selectedPreset]}
                 </Text>
@@ -237,6 +224,7 @@ export const CreateStrategyFormOnPage = ({
                         <IconChevronDown size={14} />
                       )
                     }
+                    color="rollout.6"
                     onClick={() => setScheduleOpen((o) => !o)}
                     disabled={isPending}
                     px={0}

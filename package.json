@@ -1,6 +1,6 @@
 {
   "name": "rolloutctrl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RolloutCtrl is an open-source, self-hosted platform for feature flags, progressive delivery, and access control.",
   "private": true,
   "keywords": [
