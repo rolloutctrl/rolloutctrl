@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 export const ProjectPage = () => {
   const { projectId } = useParams();
   const { data: project } = useGetProjectById(projectId);
-  console.log(project, projectId);
   return (
     <>
       {project && (

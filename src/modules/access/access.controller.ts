@@ -24,13 +24,14 @@ export class AccessController {
       roles: string[];
       attributes?: Record<string, any>;
       action: string;
-      projectId: string;
       environment: string;
       userId?: string;
       kind?: string;
       key?: string;
     },
+    @Headers('x-api-key') apiKey: string,
   ) {
+    if (!apiKey) throw new UnauthorizedException('Missing API key');
     if (!body) throw new BadRequestException('Missing body');
     if (!Array.isArray(body.roles) || body.roles.length === 0) {
       throw new BadRequestException('roles must be a non-empty array');
@@ -38,14 +39,14 @@ export class AccessController {
     if (!body.action || body.action.trim().length === 0) {
       throw new BadRequestException('Missing action');
     }
-    if (!body.projectId || body.projectId.trim().length === 0) {
-      throw new BadRequestException('Missing projectId');
-    }
     if (!body.environment || body.environment.trim().length === 0) {
       throw new BadRequestException('Missing environment');
     }
 
-    return this.accessService.can(body);
+    const projectId =
+      await this.accessService.resolveProjectIdFromApiKey(apiKey);
+
+    return this.accessService.can({ ...body, projectId });
   }
 
   /**
@@ -109,9 +110,9 @@ export class AccessController {
     return config;
   }
 
-  @Post('cache/clear')
-  async clearCache() {
-    await this.accessService.clearAllCache();
-    return { ok: true };
-  }
+  // @Post('cache/clear')
+  // async clearCache() {
+  //   await this.accessService.clearAllCache();
+  //   return { ok: true };
+  // }
 }

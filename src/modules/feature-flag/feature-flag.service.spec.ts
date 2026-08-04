@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ConflictException } from '@nestjs/common';
 import { FeatureFlagService } from './feature-flag.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -30,6 +30,7 @@ function mockUser(overrides: any = {}) {
 
 describe('FeatureFlagService', () => {
   let service: FeatureFlagService;
+  let moduleRef: TestingModule;
   let prisma: ReturnType<typeof createMockPrismaService>;
   let accessService: { invalidateCacheByProject: jest.Mock };
   let auditLogService: { logAction: jest.Mock };
@@ -45,7 +46,7 @@ describe('FeatureFlagService', () => {
     environmentService = { incrementEnvironmentVersion: jest.fn() };
     notificationService = { notifyOrganizationOwnersAndAdmins: jest.fn() };
 
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         FeatureFlagService,
         { provide: PrismaService, useValue: prisma },
@@ -59,6 +60,8 @@ describe('FeatureFlagService', () => {
     service = moduleRef.get(FeatureFlagService);
     jest.clearAllMocks();
   });
+
+  afterEach(() => moduleRef.close());
 
   describe('createFeatureFlag', () => {
     const dto = { key: 'new-flag', description: 'desc' };

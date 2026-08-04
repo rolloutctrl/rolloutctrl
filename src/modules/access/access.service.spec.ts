@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import {
   BadRequestException,
   NotFoundException,
@@ -27,6 +27,7 @@ const mockedEvaluateFeatureFlag = evaluateFeatureFlag as jest.MockedFunction<
 
 describe('AccessService', () => {
   let service: AccessService;
+  let moduleRef: TestingModule;
   let prisma: ReturnType<typeof createMockPrismaService>;
   let redis: MockRedis;
 
@@ -34,7 +35,7 @@ describe('AccessService', () => {
     prisma = createMockPrismaService();
     redis = createMockRedis();
 
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         AccessService,
         { provide: PrismaService, useValue: prisma },
@@ -45,6 +46,8 @@ describe('AccessService', () => {
     service = moduleRef.get(AccessService);
     jest.clearAllMocks();
   });
+
+  afterEach(() => moduleRef.close());
 
   describe('can', () => {
     const baseInput = {

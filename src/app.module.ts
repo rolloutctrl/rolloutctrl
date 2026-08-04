@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AdminThrottlerGuard } from './common/guards/admin-throttler.guard';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import redisConfig from './config/redis.config';
@@ -23,8 +25,8 @@ import { MetricsModule } from './modules/metrics/metrics.module';
 import { AuditLogModule } from './modules/audit-log/audit-log.module';
 import { SdkModule } from './modules/sdk/sdk.module';
 import { NotificationModule } from './modules/notification/notification.module';
-import { RedisThrottlerStorage } from '@nestjs-redis/throttler-storage';
-import Redis from 'ioredis';
+import { IoRedisThrottlerStorage } from './common/throttler/ioredis-throttler.storage';
+import { ThrottlerStorage } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -33,26 +35,20 @@ import Redis from 'ioredis';
       load: [redisConfig, corsConfig],
     }),
     PrismaModule,
-    // ThrottlerModule.forRoot({
-    //   throttlers: [
-    //     {
-    //       ttl: 60000,
-    //       limit: 10,
-    //     },
-    //   ],
-    // }),
     RedisModule,
     ThrottlerModule.forRootAsync({
       inject: ['REDIS_CLIENT'],
-      useFactory: (redisClient: Redis) => ({
+      useFactory: () => ({
+        // Default throttler is intentionally generous (240 req/min per user)
+        // so normal admin-panel usage (parallel list/detail/metrics requests)
+        // never trips it. Stricter limits are applied per-route via @Throttle.
         throttlers: [
           {
             name: 'default',
             ttl: 60000,
-            limit: 60,
+            limit: 240,
           },
         ],
-        storage: new RedisThrottlerStorage(redisClient),
       }),
     }),
     BullModule.forRootAsync({
@@ -96,6 +92,20 @@ import Redis from 'ioredis';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // ioredis-compatible ThrottlerStorage (replaces @nestjs-redis/throttler-storage
+    // which targets node-redis, not ioredis v5).
+    {
+      provide: ThrottlerStorage,
+      useClass: IoRedisThrottlerStorage,
+    },
+    // Global throttler guard. Runs after controller/method guards (e.g.
+    // JwtAuthGuard), so req.user is populated and tracking is per-user.
+    {
+      provide: APP_GUARD,
+      useClass: AdminThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

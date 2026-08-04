@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { SdkService, SDK_CACHE_PREFIX } from './sdk.service';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -8,6 +8,7 @@ import { createMockRedis, MockRedis } from 'src/common/testing/mock-redis';
 
 describe('SdkService', () => {
   let service: SdkService;
+  let moduleRef: TestingModule;
   let prisma: ReturnType<typeof createMockPrismaService>;
   let redis: MockRedis;
   let metricsService: { incrementBy: jest.Mock };
@@ -17,7 +18,7 @@ describe('SdkService', () => {
     redis = createMockRedis();
     metricsService = { incrementBy: jest.fn() };
 
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         SdkService,
         { provide: PrismaService, useValue: prisma },
@@ -29,6 +30,8 @@ describe('SdkService', () => {
     service = moduleRef.get(SdkService);
     jest.clearAllMocks();
   });
+
+  afterEach(() => moduleRef.close());
 
   describe('getConfig', () => {
     it('throws NotFound when environment not found', async () => {

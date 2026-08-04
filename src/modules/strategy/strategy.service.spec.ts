@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { StrategyService } from './strategy.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -14,6 +14,7 @@ function mockUser(overrides: any = {}) {
 
 describe('StrategyService', () => {
   let service: StrategyService;
+  let moduleRef: TestingModule;
   let prisma: ReturnType<typeof createMockPrismaService>;
   let accessService: { invalidateCacheByProject: jest.Mock };
   let auditLogService: { logAction: jest.Mock };
@@ -25,7 +26,7 @@ describe('StrategyService', () => {
     auditLogService = { logAction: jest.fn() };
     environmentService = { incrementEnvironmentVersion: jest.fn() };
 
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         StrategyService,
         { provide: PrismaService, useValue: prisma },
@@ -38,6 +39,8 @@ describe('StrategyService', () => {
     service = moduleRef.get(StrategyService);
     jest.clearAllMocks();
   });
+
+  afterEach(() => moduleRef.close());
 
   describe('createStrategy', () => {
     const baseDto = {

@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -36,6 +36,7 @@ function mockReq(overrides: any = {}) {
 
 describe('AuthService', () => {
   let service: AuthService;
+  let moduleRef: TestingModule;
   let prisma: ReturnType<typeof createMockPrismaService>;
   let jwtService: jest.Mocked<JwtService>;
   let config: ReturnType<typeof createMockConfigService>;
@@ -54,7 +55,7 @@ describe('AuthService', () => {
       NODE_ENV: 'development',
     });
 
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: PrismaService, useValue: prisma },
@@ -66,6 +67,8 @@ describe('AuthService', () => {
     service = moduleRef.get(AuthService);
     jest.clearAllMocks();
   });
+
+  afterEach(() => moduleRef.close());
 
   describe('login', () => {
     const loginDto = { email: 'User@Example.com', password: 'pass' };

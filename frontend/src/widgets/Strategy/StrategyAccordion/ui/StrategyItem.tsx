@@ -39,8 +39,6 @@ export const StrategyItem = ({
   isDragging = false,
 }: StrategyItemProps) => {
   const { projectId, featureFlagId } = useParams();
-
-  console.log(projectId, featureFlagId);
   return (
     <Card
       p="md"
