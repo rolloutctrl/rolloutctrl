@@ -128,10 +128,93 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "modules/**/*.(t|j)s",
+      "common/**/*.(t|j)s",
+      "!**/*.module.ts",
+      "!**/*.dto.ts",
+      "!**/*.types.ts",
+      "!**/*.constants.ts",
+      "!**/generated/**"
     ],
     "coverageDirectory": "../coverage",
+    "coverageThreshold": {
+      "global": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      },
+      "**/modules/access/access.service.ts": {
+        "statements": 80,
+        "branches": 50,
+        "functions": 60,
+        "lines": 80
+      },
+      "**/modules/access/access.utils.ts": {
+        "statements": 95,
+        "branches": 90,
+        "functions": 100,
+        "lines": 95
+      },
+      "**/modules/auth/auth.service.ts": {
+        "statements": 85,
+        "branches": 60,
+        "functions": 90,
+        "lines": 85
+      },
+      "**/modules/auth/strategies/jwt.strategy.ts": {
+        "statements": 95,
+        "branches": 80,
+        "functions": 90,
+        "lines": 95
+      },
+      "**/modules/auth/strategies/jwt-refresh-token.strategy.ts": {
+        "statements": 90,
+        "branches": 80,
+        "functions": 70,
+        "lines": 90
+      },
+      "**/modules/feature-flag/feature-flag.service.ts": {
+        "statements": 95,
+        "branches": 75,
+        "functions": 95,
+        "lines": 95
+      },
+      "**/modules/strategy/strategy.service.ts": {
+        "statements": 70,
+        "branches": 50,
+        "functions": 70,
+        "lines": 70
+      },
+      "**/modules/sdk/services/sdk.service.ts": {
+        "statements": 75,
+        "branches": 30,
+        "functions": 60,
+        "lines": 80
+      },
+      "**/modules/sdk/guards/sdk-key.guard.ts": {
+        "statements": 95,
+        "branches": 90,
+        "functions": 100,
+        "lines": 95
+      },
+      "**/modules/sdk/guards/sdk-origin.guard.ts": {
+        "statements": 95,
+        "branches": 90,
+        "functions": 100,
+        "lines": 95
+      },
+      "**/modules/sdk/guards/sdk-server.guard.ts": {
+        "statements": 95,
+        "branches": 90,
+        "functions": 100,
+        "lines": 95
+      }
+    },
     "testEnvironment": "node"
   }
 }

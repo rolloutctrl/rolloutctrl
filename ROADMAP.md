@@ -2,17 +2,9 @@
 
 The following items are planned for future releases. Priorities may change based on community feedback and project needs.
 
-## Legend
-
-| Symbol | Description |
-| --- | --- |
-| ► | In progress — actively being worked on |
-| ✓ | Done — completed and shipped |
-| ★ | Next — up next in the pipeline |
-
 ---
 
-- [★] Backend test coverage (unit and integration tests)
+- [x] Backend test coverage (unit and integration tests)
 - [ ] Vue SDK
 - [ ] Go SDK
 - [ ] Python SDK
