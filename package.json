@@ -1,8 +1,7 @@
 {
   "name": "rolloutctrl",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "RolloutCtrl is an open-source, self-hosted platform for feature flags, progressive delivery, and access control.",
-  "private": true,
   "keywords": [
     "rollout control",
     "rolloutctrl",
@@ -58,7 +57,6 @@
   "dependencies": {
     "@dicebear/core": "^9.4.2",
     "@dicebear/shapes": "^9.4.2",
-    "@nestjs-redis/throttler-storage": "^1.3.0",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^4.0.4",
@@ -125,6 +123,7 @@
     ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
+    "forceExit": true,
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

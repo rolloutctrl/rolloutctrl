@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-08-04
+
+### Added
+- Per-user rate limiting for the admin API via a global `AdminThrottlerGuard` (`APP_GUARD`). Default limit: 240 req/min per authenticated user (falls back to IP for unauthenticated routes). Returns a JSON 429 response (`error`, `retry_after`, `message`) consistent with the rest of the API
+- Stricter throttle on `POST /auth/login`: 10 attempts/min per IP to mitigate brute-force
+- `IoRedisThrottlerStorage` — custom `ThrottlerStorage` implementation for ioredis (atomic Lua script with `evalsha` + `NOSCRIPT` fallback). Replaces `@nestjs-redis/throttler-storage`, which is incompatible with ioredis v5 (`client.scriptLoad` does not exist)
+
+### Changed
+- `AccessController.evaluate` now resolves `projectId` from the API key (`resolveProjectIdFromApiKey`) instead of accepting it in the request body
+
+### Removed
+- `@nestjs-redis/throttler-storage` dependency (incompatible with ioredis v5)
+- `POST /access/cache/clear` endpoint (commented out)
+- Leftover `console.log` statements in `ProjectPage` and `StrategyItem`
+
+### Fixed
+- `TypeError: this.client.scriptLoad is not a function` — runtime error caused by `@nestjs-redis/throttler-storage` targeting `node-redis` instead of `ioredis`
+- Jest warning "A worker process has failed to exit gracefully" — added `moduleRef.close()` in `afterEach` across all service specs and enabled `forceExit` in the Jest config
+
 ## [1.0.1] - 2026-07-31
 
 ### Fixed

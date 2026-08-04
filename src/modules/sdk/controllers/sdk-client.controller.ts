@@ -8,6 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { SkipThrottle } from '@nestjs/throttler';
 import { SdkKeyGuard } from '../guards/sdk-key.guard';
 import { SdkService } from '../services/sdk.service';
 import { SdkOriginGuard } from '../guards/sdk-origin.guard';
@@ -15,6 +16,7 @@ import { SdkEvaluationBatchDto } from '../dto/sdk-evaluate.dto';
 
 @Controller('sdk/client')
 @UseGuards(SdkKeyGuard, SdkOriginGuard)
+@SkipThrottle()
 export class SdkClientController {
   constructor(private readonly sdkService: SdkService) {}
 
