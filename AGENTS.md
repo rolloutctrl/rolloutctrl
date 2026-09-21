@@ -14,6 +14,8 @@
   - `mock-config.ts` — `createMockConfigService()` for `ConfigService` DI.
 - All specs use `Test.createTestingModule` from `@nestjs/testing` and inject mock providers.
 - The `moduleNameMapper` in `package.json` maps `^src/(.*)$` → `<rootDir>/$1` so specs can import helpers via `src/common/testing/...`.
+- **Transformer:** `@swc/jest` (not ts-jest) — required because NestJS v12 packages are ESM (`"type": "module"`) and swc handles `import.meta` → CJS conversion. Config in `.swcrc`.
+- **transformIgnorePatterns:** `node_modules/(?!(@nestjs|@dicebear)/)` — allows Jest to transform ESM packages from `node_modules`.
 
 ## Coverage Gates
 
