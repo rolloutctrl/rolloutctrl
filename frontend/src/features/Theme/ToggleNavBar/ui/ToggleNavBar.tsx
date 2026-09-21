@@ -1,24 +1,36 @@
 import { ActionIcon as MantineActionButton, Tooltip } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand } from '@tabler/icons-react';
 import { useToggleNavBar } from '../model/useToggleNavBar';
 
 export const ToggleNavBar = () => {
-  const { collapsed, toggle } = useToggleNavBar();
+  const { collapsed, opened, toggle, toggleMobile } = useToggleNavBar();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
+  const handleToggle = () => {
+    if (isMobile) {
+      toggleMobile();
+    } else {
+      toggle();
+    }
+  };
+
+  const isExpanded = isMobile ? opened : !collapsed;
 
   return (
-    <Tooltip label={collapsed ? 'Expand' : 'Collapse'} position="right">
+    <Tooltip label={isExpanded ? 'Collapse' : 'Expand'} position="right">
       <MantineActionButton
         type="button"
-        onClick={toggle}
+        onClick={handleToggle}
         variant="subtle"
         color="gray"
         size="lg"
         aria-label="Toggle navbar"
       >
-        {collapsed ? (
-          <IconLayoutSidebarLeftExpand size={18}  />
-        ) : (
+        {isExpanded ? (
           <IconLayoutSidebarLeftCollapse size={18}  />
+        ) : (
+          <IconLayoutSidebarLeftExpand size={18}  />
         )}
       </MantineActionButton>
     </Tooltip>

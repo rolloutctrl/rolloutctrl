@@ -1,17 +1,11 @@
 import { Form, Formik } from 'formik';
 import { useEditVariantForm } from '../lib/useEditVariantForm';
-import { Button, ColorInput, Group, Loader, Stack } from '@mantine/core';
-import {
-  // JsonInputField,
-  SelectField,
-  TextAreaField,
-  TextField,
-} from '@/shared/ui';
+import { Button, ColorInput, Grid, Loader, Stack } from '@mantine/core';
+import { SelectField, TextAreaField, TextField } from '@/shared/ui';
 import {
   payloadTypeOptions,
   variantColorsHex,
 } from '@/shared/constants/consts';
-// import { VariantPayloadType } from '@/shared/types/enums';
 import { editVariantFormSchema } from '../lib/consts';
 import { VariantPayloadField, type Variant } from '@/entities/Variant';
 
@@ -58,35 +52,24 @@ export const EditVariantForm = ({ variant, onClose }: EditVariantFormProps) => {
               required
             />
 
-            <Group grow gap="md" align="start">
-              <SelectField
-                name="payloadType"
-                label="Type"
-                options={payloadTypeOptions}
-                placeholder="Select type"
-                disabled={isPending}
-                checkIconPosition="right"
-              />
-              {/* {values.payloadType === VariantPayloadType.JSON ? (
-                <JsonInputField
-                  name="payload"
-                  label="Payload"
-                  placeholder='e.g., {"color": "blue"}'
+            <Grid columns={12}>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <SelectField
+                  name="payloadType"
+                  label="Type"
+                  options={payloadTypeOptions}
+                  placeholder="Select type"
                   disabled={isPending}
+                  checkIconPosition="right"
                 />
-              ) : (
-                <TextField
-                  name="payload"
-                  label="Payload"
-                  placeholder="e.g., checkout_v2"
-                  disabled={isPending}
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <VariantPayloadField
+                  payloadType={values.payloadType}
+                  isPending={isPending}
                 />
-              )} */}
-              <VariantPayloadField
-                payloadType={values.payloadType}
-                isPending={isPending}
-              />
-            </Group>
+              </Grid.Col>
+            </Grid>
 
             <TextAreaField
               name="description"

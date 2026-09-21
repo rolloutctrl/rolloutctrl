@@ -120,14 +120,14 @@ export const createStrategyFormSchema = yup.object().shape({
       },
     )
     .optional(),
-  timezone: yup.string().when(['startsAt', 'endsAt'], {
+  timezone: yup.string().nullable().when(['startsAt', 'endsAt'], {
     is: (
       startsAt: Date | null | undefined,
       endsAt: Date | null | undefined,
     ) => startsAt != null || endsAt != null,
     then: (schema) =>
       schema.required('Timezone is required when a date is set'),
-    otherwise: (schema) => schema.optional(),
+    otherwise: (schema) => schema.nullable().optional(),
   }),
   rules: yup
     .array()

@@ -6,8 +6,8 @@ import { ToggleThemeButton } from '@/features/Theme/ToggleTheme';
 import { navigationRoutes } from '@/shared/routes/navigationRoutes';
 import { Logo } from '@/shared/ui';
 import { NotificationsDrawer } from '@/widgets/Notification/NotificationDrawer';
-// import { LogoNew } from '@/shared/ui/icons/LogoNew';
 import { AppShell, Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 
 type HeaderProps = {
@@ -15,13 +15,14 @@ type HeaderProps = {
 };
 
 export const Header = ({ withoutNavBar = false }: HeaderProps) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   if (withoutNavBar) {
     return (
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between" align="center" w="100%">
           <Group>
             <Link to={navigationRoutes.home}>
-              <Logo />
+              <Logo isMini={isMobile} />
             </Link>
           </Group>
           <Group gap="xs">
@@ -43,7 +44,7 @@ export const Header = ({ withoutNavBar = false }: HeaderProps) => {
         /> */}
         <Group gap="xs">
           <ToggleNavBar />
-          <SearchInProjectSpotlight />
+          {!isMobile && <SearchInProjectSpotlight />}
         </Group>
         
         <Group gap="xs">

@@ -31,15 +31,17 @@ interface LinksGroupProps {
   badge?: number;
   exact?: boolean;
   collapsed?: boolean;
+  onLinkClick?: () => void;
 }
 
-const NavLink = ({ label, link, needPermission }: LinkItem) => {
+const NavLink = ({ label, link, needPermission, onLinkClick }: LinkItem & { onLinkClick?: () => void }) => {
   const match = useMatch(link);
   const isActive = !!match;
 
   const content = (
     <Text
       component={Link}
+      onClick={onLinkClick}
       className={`flex text-left px-4 !py-2 w-full transition-colors ${
         isActive ? 'text-rollout' : 'text-gray-900 hover:text-rollout'
       }`}
@@ -71,6 +73,7 @@ type SingleNavLinkProps = {
   badge?: number;
   exact?: boolean;
   collapsed?: boolean;
+  onLinkClick?: () => void;
 };
 const SingleNavLink = ({
   icon: Icon,
@@ -80,12 +83,14 @@ const SingleNavLink = ({
   isActive,
   badge,
   collapsed,
+  onLinkClick,
 }: SingleNavLinkProps) => {
   const mainLink = collapsed ? (
     <Tooltip label={label} position="right" withArrow>
       <Box
         component={Link}
         to={link || '#'}
+        onClick={onLinkClick}
         className={`flex flex-row w-[34px] items-center justify-center px-2 py-2 rounded-lg transition-colors ${
           isActive
             ? 'text-rollout dark:bg-rollout/5 bg-rollout/5'
@@ -99,6 +104,7 @@ const SingleNavLink = ({
     <Box
       component={Link}
       to={link || '#'}
+      onClick={onLinkClick}
       className={`flex flex-row w-full items-center px-4 py-2 rounded-lg transition-colors ${
         isActive
           ? 'text-rollout dark:bg-rollout/5 bg-rollout/5'
@@ -136,11 +142,12 @@ export const LinksGroup = ({
   badge,
   exact,
   collapsed,
+  onLinkClick,
 }: LinksGroupProps) => {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const items = (hasLinks ? links : []).map((item) => (
-    <NavLink key={item.label} {...item} />
+    <NavLink key={item.label} {...item} onLinkClick={onLinkClick} />
   ));
 
   const match = useMatch({ path: link ?? '', end: exact ?? false });
@@ -157,6 +164,7 @@ export const LinksGroup = ({
         badge={badge}
         exact={exact}
         collapsed={collapsed}
+        onLinkClick={onLinkClick}
       />
     ) : null;
 

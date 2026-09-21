@@ -13,15 +13,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { OrganizationsTab, ProfileTab, UsersTab } from './tabs';
 import { RequiredProjectPermissionsWrapper } from '@/features/Auth/PrivateRoute';
 import { PermissionCode } from '@/shared/types/enums';
+import { useMediaQuery } from '@mantine/hooks';
 
 export const SettingsView = () => {
   const { settingsTab } = useParams();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const { data: currentUser } = useGetCurrentUser();
   return (
     <Grid columns={12} gap="md">
       <Grid.Col span={12}>
-        <Group gap="sm" align="center" px="md">
+        <Group gap="sm" align="center" px={isMobile ? 0 : "md"}>
           <Avatar src={currentUser?.avatar} alt={currentUser?.name} size={48} />
           <Box className="flex flex-col items-start gap-1">
             <Title order={1} fw={700} size="lg" ta="left">
@@ -36,15 +38,15 @@ export const SettingsView = () => {
       <Grid.Col span={12}>
         <Tabs
           value={settingsTab}
-          orientation="vertical"
+          orientation={isMobile ? "horizontal" : "vertical"}
           defaultValue="overview"
           onChange={(value) => navigate(`/settings/${value}`)}
           classNames={{
             list: '!w-full',
-            tabLabel: '!text-left',
+            tabLabel: isMobile ? 'text-center' : '!text-left',
           }}
         >
-          <Grid.Col span={3}>
+          <Grid.Col span={{ base: 12, md: 12, lg: 3 }}>
             <Tabs.List grow justify="center">
               <Tabs.Tab value="profile">Profile</Tabs.Tab>
               <RequiredProjectPermissionsWrapper
@@ -61,7 +63,7 @@ export const SettingsView = () => {
               {/* <Tabs.Tab value="notifications">Notifications</Tabs.Tab> */}
             </Tabs.List>
           </Grid.Col>
-          <Grid.Col span={9} pl="md">
+          <Grid.Col span={{ base: 12, md: 12, lg: 9 }} pl={isMobile ? 0 : "md"} pt={isMobile ? "md" : 0}>
             <Paper radius="md" ta="left" withBorder>
               <Tabs.Panel value="profile">
                 {/* <GeneralTab /> */}

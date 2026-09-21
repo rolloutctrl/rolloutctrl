@@ -22,6 +22,7 @@ export const SelectCurrentProject = ({
         maxDropdownHeight={150}
         withScrollArea
         allowDeselect={false}
+        className="flex-1"
         styles={{
           label: {
             fontSize: '0.75rem',

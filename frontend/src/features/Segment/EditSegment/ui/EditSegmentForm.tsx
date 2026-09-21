@@ -10,6 +10,7 @@ import {
   Text,
   ActionIcon,
   Divider,
+  Grid,
 } from '@mantine/core';
 import {
   SelectCreatableField,
@@ -97,41 +98,54 @@ export const EditSegmentForm = ({
                             </ActionIcon>
                           </Group>
 
-                          <Group gap="xs" grow align="start">
-                            <SelectCreatableField
-                              name={`rules.${index}.field`}
-                              label="Field"
-                              placeholder="e.g., email, country, plan"
-                              disabled={isPending}
-                              required
-                              options={predefinedRuleFieldOptions}
-                            />
-                            <div className="flex flex-row w-full items-end gap-x-2">
-                              <Select
-                                label="Operator"
-                                data={operatorOptions}
-                                value={rule.operator}
-                                onChange={(value) => {
-                                  const op = value as Operator;
-                                  setFieldValue(`rules.${index}.operator`, op);
-                                  setFieldValue(
-                                    `rules.${index}.value`,
-                                    isArrayOperator(op) ? [] : '',
-                                  );
-                                }}
-                                checkIconPosition="right"
+                          <Grid columns={12}>
+                            <Grid.Col
+                              span={{ base: 12, md: 12, lg: 6 }}
+                              ta="left"
+                            >
+                              <SelectCreatableField
+                                name={`rules.${index}.field`}
+                                label="Field"
+                                placeholder="e.g., email, country, plan"
                                 disabled={isPending}
                                 required
+                                options={predefinedRuleFieldOptions}
                               />
-                              <div className="flex flex-row items-center h-[2.25rem]">
-                                <SwitchField
-                                  name={`rules.${index}.not`}
-                                  label="Not"
+                            </Grid.Col>
+                            <Grid.Col
+                              span={{ base: 12, md: 12, lg: 6 }}
+                              ta="left"
+                            >
+                              <div className="flex flex-row w-full items-end gap-x-2">
+                                <Select
+                                  label="Operator"
+                                  data={operatorOptions}
+                                  value={rule.operator}
+                                  onChange={(value) => {
+                                    const op = value as Operator;
+                                    setFieldValue(
+                                      `rules.${index}.operator`,
+                                      op,
+                                    );
+                                    setFieldValue(
+                                      `rules.${index}.value`,
+                                      isArrayOperator(op) ? [] : '',
+                                    );
+                                  }}
+                                  checkIconPosition="right"
                                   disabled={isPending}
+                                  required
                                 />
+                                <div className="flex flex-row items-center h-[2.25rem]">
+                                  <SwitchField
+                                    name={`rules.${index}.not`}
+                                    label="Not"
+                                    disabled={isPending}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          </Group>
+                            </Grid.Col>
+                          </Grid>
 
                           {isArrayOperator(rule.operator) ? (
                             <TagsInputField

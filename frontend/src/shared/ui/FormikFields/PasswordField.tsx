@@ -1,7 +1,7 @@
-import { FastField, Field, type FieldProps } from "formik";
-import { type FC } from "react";
+import { FastField, Field, type FieldProps } from 'formik';
+import { type FC } from 'react';
 
-import { PasswordInput } from "@mantine/core";
+import { PasswordInput } from '@mantine/core';
 
 type PasswordFieldProps = {
   type?: string;
@@ -19,7 +19,7 @@ export const PasswordField: FC<PasswordFieldProps> = (props) => {
   const {
     name,
     label,
-    type = "text",
+    type = 'text',
     placeholder,
     description,
     disabled,
@@ -57,6 +57,9 @@ export const PasswordField: FC<PasswordFieldProps> = (props) => {
           description={description}
           error={meta.touched && meta.error && meta.error}
           required={required}
+          visibilityToggleButtonProps={{
+            'aria-label': 'Toggle password visibility',
+          }}
         />
       )}
     </Field>

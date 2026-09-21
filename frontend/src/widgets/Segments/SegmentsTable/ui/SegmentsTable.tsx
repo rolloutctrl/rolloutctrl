@@ -68,41 +68,42 @@ export const SegmentsTable = () => {
   }
   return (
     <>
-      <Table
-        stickyHeader
-        stickyHeaderOffset={60}
-        classNames={{
-          td: '!px-4',
-          th: '!px-4',
-        }}
-      >
-        <Table.Thead className='bg-gray-100 dark:bg-dark-bg'>
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Key</Table.Th>
-            <Table.Th>Rules</Table.Th>
-            <Table.Th>Updated</Table.Th>
-            <RequiredProjectPermissionsWrapper
-              permissions={PermissionCode.SEGMENT_UPDATE}
-            >
-              <Table.Th ta="right">Actions</Table.Th>
-            </RequiredProjectPermissionsWrapper>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {segments?.map((segment) => (
-            <SegmentTableItem
-              key={segment.id}
-              segment={segment}
-              colorScheme={colorScheme}
-              onEditSegment={handleOpenEdit}
-              onDeleteSegment={handleOpenDelete}
-              onCopySegment={handleOpenCopy}
-              isCopySegmentDisabled={isCopySegmentDisabled}
-            />
-          ))}
-        </Table.Tbody>
-      </Table>
+      <div className="overflow-x-auto lg:overflow-visible">
+        <Table
+          classNames={{
+            td: '!px-4 whitespace-nowrap',
+            th: '!px-4 whitespace-nowrap',
+          }}
+          className="min-w-[700px]"
+        >
+          <Table.Thead className='bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]'>
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Key</Table.Th>
+              <Table.Th>Rules</Table.Th>
+              <Table.Th>Updated</Table.Th>
+              <RequiredProjectPermissionsWrapper
+                permissions={PermissionCode.SEGMENT_UPDATE}
+              >
+                <Table.Th ta="right">Actions</Table.Th>
+              </RequiredProjectPermissionsWrapper>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {segments?.map((segment) => (
+              <SegmentTableItem
+                key={segment.id}
+                segment={segment}
+                colorScheme={colorScheme}
+                onEditSegment={handleOpenEdit}
+                onDeleteSegment={handleOpenDelete}
+                onCopySegment={handleOpenCopy}
+                isCopySegmentDisabled={isCopySegmentDisabled}
+              />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
       <EditSegmentModal
         segment={selectedSegment}
         opened={modalState.openEditModal}

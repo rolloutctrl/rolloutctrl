@@ -47,30 +47,13 @@ export const StrategyValidationBanner = ({
         py="xs"
       >
         {infos.map((info) => (
-          <Text key={info.code} size="sm" c="blue.7">
+          <Text key={info.code} size="sm" c="blue.7" ta="left">
             {info.message}
           </Text>
         ))}
       </Alert>
     );
   }
-
-  // if (strategyCount === 0) {
-  //   return (
-  //     <Alert
-  //       color="blue"
-  //       variant="light"
-  //       icon={<IconInfoCircle size={16} />}
-  //       radius="md"
-  //       mb="sm"
-  //       py="xs"
-  //     >
-  //       <Text size="sm" c="blue.7">
-  //         No strategies configured for this environment. The flag is currently available to 100% of users.
-  //       </Text>
-  //     </Alert>
-  //   );
-  // }
 
   if (!hasIssues) {
     return (
@@ -82,7 +65,7 @@ export const StrategyValidationBanner = ({
         mb="sm"
         py="xs"
       >
-        <Text size="sm" c="green.8">
+        <Text size="sm" c="green.8" ta="left">
           All checks passed —{' '}
           <strong>
             {strategyCount} {strategyCount === 1 ? 'strategy' : 'strategies'}
@@ -123,7 +106,7 @@ export const StrategyValidationBanner = ({
     >
       <UnstyledButton onClick={() => setExpanded((e) => !e)} className="w-full">
         <Group justify="space-between" wrap="nowrap">
-          <Text size="sm" fw={500}>
+          <Text size="sm" fw={500} ta="left">
             {summaryParts} detected in strategies
           </Text>
           {expanded ? (
@@ -146,7 +129,7 @@ export const StrategyValidationBanner = ({
               >
                 {issue.severity}
               </Badge>
-              <Text size="xs" lh={1.5}>
+              <Text size="xs" lh={1.5} ta="left">
                 {issue.message}
               </Text>
             </Group>

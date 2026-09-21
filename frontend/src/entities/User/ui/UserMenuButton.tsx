@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { navigationRoutes } from '@/shared/routes/navigationRoutes';
 import { RequiredProjectPermissionsWrapper } from '@/features/Auth/PrivateRoute';
 import { PermissionCode } from '@/shared/types/enums';
+import { useMediaQuery } from '@mantine/hooks';
 
 type UserMenuButtonProps = {
   logoutButtonSlot?: React.ReactNode;
@@ -20,6 +21,7 @@ type UserMenuButtonProps = {
 
 export const UserMenuButton = ({ logoutButtonSlot }: UserMenuButtonProps) => {
   const { isAuthenticated } = useAuthContext();
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const { data: currentUser, isLoading } = useGetCurrentUser(isAuthenticated);
 
   if (isLoading) {
@@ -33,15 +35,17 @@ export const UserMenuButton = ({ logoutButtonSlot }: UserMenuButtonProps) => {
           <Group>
             <Avatar src={currentUser?.avatar} size={30} radius="xl" />
 
-            <div className="flex flex-col items-start">
-              <Text size="sm" fw={500}>
-                {currentUser?.name}
-              </Text>
+            {!isMobile && (
+              <div className="flex flex-col items-start">
+                <Text size="sm" fw={500}>
+                  {currentUser?.name}
+                </Text>
 
-              <Text c="dimmed" size="xs">
-                {currentUser?.email}
-              </Text>
-            </div>
+                <Text c="dimmed" size="xs">
+                  {currentUser?.email}
+                </Text>
+              </div>
+            )}
 
             <IconChevronDown size={16} />
           </Group>

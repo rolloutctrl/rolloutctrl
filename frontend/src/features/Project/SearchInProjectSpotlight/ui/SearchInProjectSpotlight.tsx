@@ -5,7 +5,11 @@ import { useSearchInProjectSpotlight } from '../lib/useSearchInProjectSpotlight'
 import type { SpotlightActionData } from '@mantine/spotlight';
 import { useNavigate } from 'react-router-dom';
 
-export const SearchInProjectSpotlight = () => {
+export const SearchInProjectSpotlight = ({
+  w = 260,
+}: {
+  w?: string | number;
+}) => {
   const navigate = useNavigate();
   const { search, setSearch, actions, isFetching } =
     useSearchInProjectSpotlight();
@@ -37,7 +41,7 @@ export const SearchInProjectSpotlight = () => {
         type="button"
         onClick={spotlight.open}
         pointer
-        w={260}
+        w={w}
       >
         <Group gap="xs" justify="space-between">
           <Group>

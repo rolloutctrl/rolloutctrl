@@ -8,7 +8,7 @@ export const ProfileTab = () => {
     <>
       <Box p={0} className="flex flex-col w-full">
         <Grid columns={12} p="md">
-          <Grid.Col span={4} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
             <Title order={3} fw={600} size="lg" ta="left" pb={4}>
               Profile
             </Title>
@@ -16,7 +16,7 @@ export const ProfileTab = () => {
               Update your profile information
             </Text>
           </Grid.Col>
-          <Grid.Col span={5} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 5 }} ta="left">
             <EditUserForm />
           </Grid.Col>
         </Grid>
@@ -24,7 +24,7 @@ export const ProfileTab = () => {
       <Divider my="md" />
       <Box p={0} className="flex flex-col w-full">
         <Grid columns={12} p="md">
-          <Grid.Col span={4} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
             <Title order={3} fw={600} size="lg" ta="left" pb={4}>
               Password
             </Title>
@@ -32,14 +32,14 @@ export const ProfileTab = () => {
               Change your password
             </Text>
           </Grid.Col>
-          <Grid.Col span={5} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 5 }} ta="left">
             <ChangeUserPasswordForm />
           </Grid.Col>
         </Grid>
       </Box>
       <Divider my="md" />
       <Grid columns={12} p="md">
-        <Grid.Col span={4} ta="left">
+        <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
           <Title order={3} fw={600} size="lg" ta="left" c="red" pb={4}>
             Delete account
           </Title>
@@ -47,7 +47,7 @@ export const ProfileTab = () => {
             This actions cannot be undone.
           </Text>
         </Grid.Col>
-        <Grid.Col span={6} ta="left">
+        <Grid.Col span={{ base: 12, md: 12, lg: 5 }} ta="left">
           <DeleteUserButton />
         </Grid.Col>
       </Grid>

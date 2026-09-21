@@ -81,35 +81,33 @@ export const AuditLogsTable = () => {
 
   return (
     <div className="relative">
-      <Table
-        classNames={{
-          td: '!px-4',
-          th: '!px-4',
-        }}
-      >
-        <Table.Thead
-          className="bg-gray-100 dark:bg-dark"
-          style={{
-            position: 'sticky',
-            top: 60,
-            zIndex: 100,
+      <div className="overflow-x-auto lg:overflow-visible">
+        <Table
+          classNames={{
+            td: '!px-4 whitespace-nowrap',
+            th: '!px-4 whitespace-nowrap',
           }}
+          className="min-w-[800px]"
         >
-          <Table.Tr>
-            <Table.Th>Log</Table.Th>
-            <Table.Th>User</Table.Th>
-            <Table.Th w={120}>Action</Table.Th>
-            <Table.Th w={160}>Resource Type</Table.Th>
-            <Table.Th w={100}>Resource ID</Table.Th>
-            <Table.Th w={180}>Date</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {auditLogs.map((log) => (
-            <AuditLogTableItem key={log.id} auditLog={log} />
-          ))}
-        </Table.Tbody>
-      </Table>
+          <Table.Thead
+            className="bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]"
+          >
+            <Table.Tr>
+              <Table.Th>Log</Table.Th>
+              <Table.Th>User</Table.Th>
+              <Table.Th w={120}>Action</Table.Th>
+              <Table.Th w={160}>Resource Type</Table.Th>
+              <Table.Th w={100}>Resource ID</Table.Th>
+              <Table.Th w={180}>Date</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {auditLogs.map((log) => (
+              <AuditLogTableItem key={log.id} auditLog={log} />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
       {isFetchingNextPage && (
         <Center p="md">
           <Loader size="sm" />

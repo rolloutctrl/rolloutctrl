@@ -12,8 +12,14 @@ import {
   Divider,
   Switch,
   Paper,
+  Grid,
 } from '@mantine/core';
-import { TextField, TextAreaField, SelectCreatableField, TagsInputField } from '@/shared/ui';
+import {
+  TextField,
+  TextAreaField,
+  SelectCreatableField,
+  TagsInputField,
+} from '@/shared/ui';
 import { ActionEffect, MatchType, Operator } from '@/shared/types/enums';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import type { EditActionStrategyRuleFormState } from '../model/types';
@@ -68,7 +74,7 @@ export const EditActionForm = ({ action, onClose }: EditActionFormProps) => {
               placeholder="user.edit"
               description="Unique identifier for the action"
               required
-              className="w-1/2"
+              className="md:w-1/2 w-full"
               disabled={isPending}
             />
 
@@ -86,7 +92,7 @@ export const EditActionForm = ({ action, onClose }: EditActionFormProps) => {
               value={values.defaultEffect}
               onChange={(value) => setFieldValue('defaultEffect', value)}
               checkIconPosition="right"
-              className="w-1/2"
+              className="md:w-1/2 w-full"
               inputWrapperOrder={['label', 'description', 'input', 'error']}
               disabled={isPending}
               required
@@ -264,78 +270,94 @@ export const EditActionForm = ({ action, onClose }: EditActionFormProps) => {
                                           </ActionIcon>
                                         </Group>
 
-                                        <Group gap="xs" grow align="start">
-                                          <SelectCreatableField
-                                            name={`strategies.${strategyIndex}.rules.${ruleIndex}.field`}
-                                            label="Field"
-                                            placeholder="e.g., email, country, plan"
-                                            disabled={isPending}
-                                            required
-                                            options={predefinedRuleFieldOptions}
-                                          />
-
-                                          <div className="flex flex-row w-full items-end gap-x-2">
-                                            <Select
-                                              label="Operator"
-                                              data={operatorOptions}
-                                              inputWrapperOrder={[
-                                                'label',
-                                                'description',
-                                                'input',
-                                                'error',
-                                              ]}
-                                              value={rule.operator}
-                                              onChange={(value) => {
-                                                const newOp = value as Operator;
-                                                const valuePath = `strategies.${strategyIndex}.rules.${ruleIndex}`;
-                                                setFieldValue(
-                                                  `${valuePath}.operator`,
-                                                  newOp,
-                                                );
-                                                if (
-                                                  isArrayOperator(newOp) &&
-                                                  !Array.isArray(rule.value)
-                                                ) {
-                                                  setFieldValue(
-                                                    `${valuePath}.value`,
-                                                    rule.value
-                                                      ? String(rule.value)
-                                                          .split(',')
-                                                          .map((v) => v.trim())
-                                                          .filter(Boolean)
-                                                      : [],
-                                                  );
-                                                } else if (
-                                                  !isArrayOperator(newOp) &&
-                                                  Array.isArray(rule.value)
-                                                ) {
-                                                  setFieldValue(
-                                                    `${valuePath}.value`,
-                                                    rule.value.join(', '),
-                                                  );
-                                                }
-                                              }}
-                                              checkIconPosition="right"
+                                        <Grid columns={12}>
+                                          <Grid.Col
+                                            span={{ base: 12, md: 12, lg: 6 }}
+                                            ta="left"
+                                          >
+                                            <SelectCreatableField
+                                              name={`strategies.${strategyIndex}.rules.${ruleIndex}.field`}
+                                              label="Field"
+                                              placeholder="e.g., email, country, plan"
                                               disabled={isPending}
                                               required
-                                              size="sm"
+                                              options={
+                                                predefinedRuleFieldOptions
+                                              }
                                             />
-                                            <div className="flex flex-row items-center h-[2.25rem]">
-                                              <Switch
-                                                label="Not"
-                                                checked={rule.not ?? false}
-                                                onChange={(event) =>
+                                          </Grid.Col>
+                                          <Grid.Col
+                                            span={{ base: 12, md: 12, lg: 6 }}
+                                            ta="left"
+                                          >
+                                            <div className="flex flex-row w-full items-end gap-x-2">
+                                              <Select
+                                                label="Operator"
+                                                data={operatorOptions}
+                                                inputWrapperOrder={[
+                                                  'label',
+                                                  'description',
+                                                  'input',
+                                                  'error',
+                                                ]}
+                                                value={rule.operator}
+                                                onChange={(value) => {
+                                                  const newOp =
+                                                    value as Operator;
+                                                  const valuePath = `strategies.${strategyIndex}.rules.${ruleIndex}`;
                                                   setFieldValue(
-                                                    `strategies.${strategyIndex}.rules.${ruleIndex}.not`,
-                                                    event.currentTarget.checked,
-                                                  )
-                                                }
+                                                    `${valuePath}.operator`,
+                                                    newOp,
+                                                  );
+                                                  if (
+                                                    isArrayOperator(newOp) &&
+                                                    !Array.isArray(rule.value)
+                                                  ) {
+                                                    setFieldValue(
+                                                      `${valuePath}.value`,
+                                                      rule.value
+                                                        ? String(rule.value)
+                                                            .split(',')
+                                                            .map((v) =>
+                                                              v.trim(),
+                                                            )
+                                                            .filter(Boolean)
+                                                        : [],
+                                                    );
+                                                  } else if (
+                                                    !isArrayOperator(newOp) &&
+                                                    Array.isArray(rule.value)
+                                                  ) {
+                                                    setFieldValue(
+                                                      `${valuePath}.value`,
+                                                      rule.value.join(', '),
+                                                    );
+                                                  }
+                                                }}
+                                                checkIconPosition="right"
                                                 disabled={isPending}
+                                                required
                                                 size="sm"
                                               />
+                                              <div className="flex flex-row items-center h-[2.25rem]">
+                                                <Switch
+                                                  label="Not"
+                                                  checked={rule.not ?? false}
+                                                  onChange={(event) =>
+                                                    setFieldValue(
+                                                      `strategies.${strategyIndex}.rules.${ruleIndex}.not`,
+                                                      event.currentTarget
+                                                        .checked,
+                                                    )
+                                                  }
+                                                  disabled={isPending}
+                                                  size="sm"
+                                                />
+                                              </div>
                                             </div>
-                                          </div>
-                                        </Group>
+                                          </Grid.Col>
+                                        </Grid>
+
                                         {isArrayOperator(rule.operator) ? (
                                           <TagsInputField
                                             name={`strategies.${strategyIndex}.rules.${ruleIndex}.value`}

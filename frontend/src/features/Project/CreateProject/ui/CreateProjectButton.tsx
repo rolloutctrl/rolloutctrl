@@ -39,7 +39,6 @@ export const CreateProjectButton = ({
         size="md"
         title="Create Project"
         classNames={{
-          // header: '!bg-transparent',
           title: 'space-grotesk-semibold !font-bold',
         }}
       >

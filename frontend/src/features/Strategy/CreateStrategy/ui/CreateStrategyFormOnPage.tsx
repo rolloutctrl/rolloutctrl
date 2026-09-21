@@ -117,7 +117,7 @@ export const CreateStrategyFormOnPage = ({
                   onChange={handlePresetChange}
                   data={strategyPresetOptions}
                   disabled={isPending}
-                  className="w-1/2"
+                  className="md:w-1/2 w-full"
                   checkIconPosition="right"
                 />
                 <Text size="xs" c="dimmed" mt={6}>
@@ -136,7 +136,10 @@ export const CreateStrategyFormOnPage = ({
               >
                 <Grid columns={12} mt="md">
                   {environmentOptions?.map((item) => (
-                    <Grid.Col span={4} key={item.value}>
+                    <Grid.Col
+                      span={{ base: 12, md: 12, lg: 4 }}
+                      key={item.value}
+                    >
                       <Checkbox.Card p="xs" value={item.value}>
                         <Group wrap="nowrap" gap="xs" align="center">
                           <Checkbox.Indicator />
@@ -162,7 +165,7 @@ export const CreateStrategyFormOnPage = ({
                   label="Strategy name"
                   description="Optional name for this strategy"
                   disabled={isPending}
-                  className="w-1/2"
+                  className="md:w-1/2 w-full"
                 />
               )}
 
@@ -205,7 +208,7 @@ export const CreateStrategyFormOnPage = ({
                     description="User attribute used to ensure consistent rollout assignment"
                     placeholder="e.g., userId, sessionId"
                     disabled={isPending}
-                    className="w-1/2 mt-4"
+                    className="md:w-1/2 w-full mt-4"
                   />
                 </Stack>
               )}
@@ -232,35 +235,41 @@ export const CreateStrategyFormOnPage = ({
                     {scheduleOpen ? 'Hide schedule' : 'Add schedule'}
                   </Button>
                   <Collapse expanded={scheduleOpen}>
-                    <Group gap="md" mt="sm" align="flex-start">
-                      <DateTimePickerField
-                        name="startsAt"
-                        label="Starts at"
-                        className="flex-1"
-                        leftSection={<IconCalendar size={16} />}
-                        clearable
-                        disabled={isPending}
-                      />
-                      <DateTimePickerField
-                        name="endsAt"
-                        label="Ends at"
-                        className="flex-1"
-                        leftSection={<IconCalendar size={16} />}
-                        clearable
-                        disabled={isPending}
-                      />
-                      <SelectField
-                        name="timezone"
-                        options={timezoneOptions}
-                        label="Timezone"
-                        placeholder="Select timezone"
-                        disabled={isPending}
-                        checkIconPosition="right"
-                        clearable
-                        isSearchable
-                        nothingFoundMessage="Not found"
-                      />
-                    </Group>
+                    <Grid columns={12}>
+                      <Grid.Col span={{ base: 12, md: 12, lg: 4 }}>
+                        <DateTimePickerField
+                          name="startsAt"
+                          label="Starts at"
+                          className="flex-1"
+                          leftSection={<IconCalendar size={16} />}
+                          clearable
+                          disabled={isPending}
+                        />
+                      </Grid.Col>
+                      <Grid.Col span={{ base: 12, md: 12, lg: 4 }}>
+                        <DateTimePickerField
+                          name="endsAt"
+                          label="Ends at"
+                          className="flex-1"
+                          leftSection={<IconCalendar size={16} />}
+                          clearable
+                          disabled={isPending}
+                        />
+                      </Grid.Col>
+                      <Grid.Col span={{ base: 12, md: 12, lg: 4 }}>
+                        <SelectField
+                          name="timezone"
+                          options={timezoneOptions}
+                          label="Timezone"
+                          placeholder="Select timezone"
+                          disabled={isPending}
+                          checkIconPosition="right"
+                          clearable
+                          isSearchable
+                          nothingFoundMessage="Not found"
+                        />
+                      </Grid.Col>
+                    </Grid>
                   </Collapse>
                 </div>
               )}
@@ -294,16 +303,25 @@ export const CreateStrategyFormOnPage = ({
                                     <IconTrash size={16} />
                                   </ActionIcon>
                                 </Group>
-                                <Group gap="xs" grow align="start">
-                                  <SelectCreatableField
-                                    name={`rules.${index}.field`}
-                                    label="Field"
-                                    placeholder="e.g., email, country, plan"
-                                    disabled={isPending}
-                                    required
-                                    options={predefinedRuleFieldOptions}
-                                  />
-                                  <div className="flex flex-row w-full items-end gap-x-2">
+                                <Grid columns={12}>
+                                  <Grid.Col
+                                    span={{ base: 12, md: 12, lg: 6 }}
+                                    ta="left"
+                                  >
+                                    <SelectCreatableField
+                                      name={`rules.${index}.field`}
+                                      label="Field"
+                                      placeholder="e.g., email, country, plan"
+                                      disabled={isPending}
+                                      required
+                                      options={predefinedRuleFieldOptions}
+                                    />
+                                  </Grid.Col>
+                                  <Grid.Col
+                                    span={{ base: 12, md: 12, lg: 6 }}
+                                    ta="left"
+                                  >
+                                    <div className="flex flex-row w-full items-end gap-x-2">
                                     <Select
                                       label="Operator"
                                       data={operatorOptions}
@@ -331,7 +349,8 @@ export const CreateStrategyFormOnPage = ({
                                       />
                                     </div>
                                   </div>
-                                </Group>
+                                  </Grid.Col>
+                                </Grid>
 
                                 {isArrayOperator(rule.operator) ? (
                                   <TagsInputField

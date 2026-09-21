@@ -1,5 +1,5 @@
 import { AppShell, Burger, Group } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link, Outlet } from 'react-router-dom';
 import { navigationRoutes } from '../routes/navigationRoutes';
 import { useToggleNavBar } from '@/features/Theme/ToggleNavBar';
@@ -23,9 +23,10 @@ export const Layout = ({
   withoutNavBar = false,
   isOnePage = false,
 }: LayoutProps) => {
-  const [opened, { toggle }] = useDisclosure();
   // const { colorScheme } = useMantineColorScheme();
-  const { collapsed } = useToggleNavBar();
+  const { collapsed, opened, toggleMobile, setOpened } = useToggleNavBar();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isCollapsed = isMobile ? false : collapsed;
   const navbarWidth = collapsed ? 80 : 255;
   if (isOnePage) {
     return (
@@ -89,15 +90,15 @@ export const Layout = ({
           h={60}
           className={clsx(
             'shrink-0 px-2',
-            collapsed && 'flex !flex-col !items-center !justify-center',
+            isCollapsed && 'flex !flex-col !items-center !justify-center',
           )}
           justify="space-between"
           wrap="nowrap"
         >
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Link to={navigationRoutes.home}>
-            <Logo isMini={collapsed} />
+          <Link to={navigationRoutes.home} onClick={() => setOpened(false)}>
+            <Logo isMini={isCollapsed} />
           </Link>
+          <Burger opened={opened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
         </Group>
         {navBarSlot}
       </AppShell.Navbar>
