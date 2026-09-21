@@ -11,6 +11,7 @@ import {
   Select,
   Stack,
   Text,
+  Grid,
 } from '@mantine/core';
 import { roleDescriptions } from '@/shared/constants/consts';
 import { PasswordField, TextField } from '@/shared/ui';
@@ -61,21 +62,25 @@ export const EditOrganizationMemberForm = ({
               disabled={isPending}
             />
 
-            <Group gap="xs" grow align="start">
-              <PasswordField
-                name="password"
-                label="Password (Optional)"
-                description="Leave empty to keep current"
-                disabled={isPending}
-              />
-              <PasswordField
-                name="confirmPassword"
-                label="Confirm password (Optional)"
-                description="Leave empty to keep current"
-                disabled={isPending}
-              />
-            </Group>
-
+            <Grid columns={12}>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <PasswordField
+                  name="password"
+                  label="Password (Optional)"
+                  description="Leave empty to keep current"
+                  disabled={isPending}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <PasswordField
+                  name="confirmPassword"
+                  label="Confirm password (Optional)"
+                  description="Leave empty to keep current"
+                  disabled={isPending}
+                />
+              </Grid.Col>
+            </Grid>
+            
             <SelectField
               name="role"
               label="Organization role"

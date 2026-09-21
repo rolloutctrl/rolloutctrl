@@ -1,5 +1,6 @@
 import { CreateProjectButton } from '@/features/Project/CreateProject';
 import { SelectCurrentProject } from '@/features/Project/SelectCurrentProject';
+import { SearchInProjectSpotlight } from '@/features/Project/SearchInProjectSpotlight';
 import {
   IconApi,
   IconLayoutDashboard,
@@ -10,6 +11,7 @@ import {
   IconSettings,
   IconTimeline,
 } from '@tabler/icons-react';
+import { useMediaQuery } from '@mantine/hooks';
 import { LinksGroup } from './LinksGroup';
 import { useParams } from 'react-router-dom';
 import { PermissionCode } from '@/shared/types/enums';
@@ -20,7 +22,12 @@ import { useToggleNavBar } from '@/features/Theme/ToggleNavBar';
 export const ProjectNavBar = () => {
   const { projectId } = useParams();
   const { data: currentProject } = useGetProjectById(projectId);
-  const { collapsed } = useToggleNavBar();
+  const { collapsed, setOpened } = useToggleNavBar();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isCollapsed = isMobile ? false : collapsed;
+  const handleLinkClick = () => {
+    if (isMobile) setOpened(false);
+  };
   const mockMenuLinks = [
     {
       label: 'Overview',
@@ -75,11 +82,11 @@ export const ProjectNavBar = () => {
     },
   ];
   const links = mockMenuLinks.map((item) => (
-    <LinksGroup {...item} key={item.label} collapsed={collapsed} />
+    <LinksGroup {...item} key={item.label} collapsed={isCollapsed} onLinkClick={handleLinkClick} />
   ));
   return (
     <nav className="flex flex-col w-full h-full text-left">
-      {!collapsed && (
+      {!isCollapsed && (
         <SelectCurrentProject
           createProjectButtonSlot={
             <RequiredProjectPermissionsWrapper
@@ -90,8 +97,13 @@ export const ProjectNavBar = () => {
           }
         />
       )}
+      {isMobile && (
+        <div className="px-0 pb-2 pt-4">
+          <SearchInProjectSpotlight w="100%" />
+        </div>
+      )}
       <div className="flex-1 overflow-y-auto overflow-x-hidden mx-[-1rem]">
-        <div className={`py-4 gap-0.5 flex flex-col ${collapsed ? 'px-2 items-center' : 'px-4'}`}>
+        <div className={`py-4 gap-0.5 flex flex-col ${isCollapsed ? 'px-2 items-center' : 'px-4'}`}>
           {links}
         </div>
       </div>

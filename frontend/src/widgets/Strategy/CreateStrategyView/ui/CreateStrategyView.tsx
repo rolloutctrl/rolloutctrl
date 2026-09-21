@@ -30,8 +30,8 @@ export const CreateStrategyView = () => {
     );
   }
   return (
-    <Grid columns={24}>
-      <Grid.Col span={24} ta="left">
+    <Grid columns={12}>
+      <Grid.Col span={12} ta="left">
         <BackButton
           label="Back to Feature flag"
           to={`/project/${projectId}/feature-flags/${featureFlagId}${envQuery}`}
@@ -54,7 +54,7 @@ export const CreateStrategyView = () => {
             <Grid.Col span={12} p={0}>
               <Divider my={0} />
             </Grid.Col>
-            <Grid.Col span={8} p="md">
+            <Grid.Col span={{ base: 12, md: 12, lg: 8 }} p="md">
               <CreateStrategyFormOnPage needRedirect />
             </Grid.Col>
             {/* <Grid.Col span={4}></Grid.Col> */}

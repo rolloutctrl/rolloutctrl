@@ -30,7 +30,7 @@ export const OrganizationMemberTableItem = ({
   return (
     <Table.Tr>
       <Table.Td>
-        <Group>
+        <Group wrap="nowrap" align="center">
           <Avatar src={member?.avatar} size={36} radius="xl" />
 
           <div className="flex flex-col items-start">

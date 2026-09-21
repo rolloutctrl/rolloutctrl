@@ -2,11 +2,16 @@ import { Form, Formik } from 'formik';
 import { useLoginForm } from '../lib/useLoginForm';
 import { PasswordField, TextField } from '@/shared/ui';
 import { Button, Loader } from '@mantine/core';
+import { loginFormSchema } from '../lib/consts';
 
 export const LoginForm = () => {
   const { initialValues, submitForm, isPending } = useLoginForm();
   return (
-    <Formik initialValues={initialValues} onSubmit={submitForm}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={submitForm}
+      validationSchema={loginFormSchema}
+    >
       <Form className="flex flex-col w-full gap-y-4">
         <TextField
           name="email"

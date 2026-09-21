@@ -90,16 +90,16 @@ export const VariantsTable = ({
   }
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-auto lg:overflow-visible"> 
       <Table
         classNames={{
-          td: '!px-4',
-          th: '!px-4',
+          td: '!px-4 whitespace-nowrap',
+          th: '!px-4 whitespace-nowrap',
         }}
+        className="min-w-[700px]"
       >
         <Table.Thead
-          className="bg-gray-100 dark:bg-dark"
-          style={{ position: 'sticky', top: 60, zIndex: 100 }}
+          className="bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]"
         >
           <Table.Tr>
             <Table.Th>Name</Table.Th>

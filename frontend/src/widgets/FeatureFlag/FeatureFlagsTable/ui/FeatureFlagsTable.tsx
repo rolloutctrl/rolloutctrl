@@ -106,44 +106,41 @@ export const FeatureFlagsTable = ({
 
   return (
     <div className="relative">
-      <Table
-        classNames={{
-          td: '!px-4',
-          th: '!px-4',
-        }}
-      >
-        <Table.Thead
-          className='bg-gray-100 dark:bg-dark'
-          style={{
-            position: 'sticky',
-            top: 60,
-            zIndex: 100,
-            // backgroundColor: 'white',
+      <div className="overflow-x-auto lg:overflow-visible">
+        <Table
+          classNames={{
+            td: '!px-4 whitespace-nowrap',
+            th: '!px-4 whitespace-nowrap',
           }}
+          className="min-w-[700px]"
         >
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th w={450}>Environments</Table.Th>
-            <Table.Th w={180}>Created</Table.Th>
-            <RequiredProjectPermissionsWrapper
-              permissions={PermissionCode.FLAG_UPDATE}
-            >
-              <Table.Th w={100}>Actions</Table.Th>
-            </RequiredProjectPermissionsWrapper>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {featureFlags.map((flag) => (
-            <FeatureFlagTableItem
-              key={flag.id}
-              featureFlag={flag}
-              onEditFeatureFlag={handleOpenEdit}
-              onDeleteFeatureFlag={handleOpenDelete}
-              colorScheme={colorScheme}
-            />
-          ))}
-        </Table.Tbody>
-      </Table>
+          <Table.Thead
+            className='bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]'
+          >
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th w={450}>Environments</Table.Th>
+              <Table.Th w={180}>Created</Table.Th>
+              <RequiredProjectPermissionsWrapper
+                permissions={PermissionCode.FLAG_UPDATE}
+              >
+                <Table.Th w={100}>Actions</Table.Th>
+              </RequiredProjectPermissionsWrapper>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {featureFlags.map((flag) => (
+              <FeatureFlagTableItem
+                key={flag.id}
+                featureFlag={flag}
+                onEditFeatureFlag={handleOpenEdit}
+                onDeleteFeatureFlag={handleOpenDelete}
+                colorScheme={colorScheme}
+              />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
       {isFetchingNextPage && (
         <Center p="md">
           <Loader size="sm" />

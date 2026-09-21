@@ -46,9 +46,9 @@ export const StrategyVariantsContainer = ({
         </Text>
       </Group>
 
-      <Grid columns={12}>
+      <Grid columns={12} >
         {strategyVariants.map((variant) => (
-          <Grid.Col span={4} key={variant.id}>
+          <Grid.Col span={{ base: 12, md: 6, lg: 4 }} key={variant.id}>
             <StrategyVariantItem variant={variant} />
           </Grid.Col>
         ))}

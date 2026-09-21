@@ -55,36 +55,38 @@ export const ApiKeysTable = () => {
 
   return (
     <>
-      <Table
-        classNames={{
-          td: '!px-4',
-          th: '!px-4',
-        }}
-      >
-        <Table.Thead
-          className="bg-gray-100 dark:bg-dark"
-          style={{ position: 'sticky', top: 60, zIndex: 100 }}
+      <div className="overflow-x-auto lg:overflow-visible">
+        <Table
+          classNames={{
+            td: '!px-4 whitespace-nowrap',
+            th: '!px-4 whitespace-nowrap',
+          }}
+          className="min-w-[800px]"
         >
-          <Table.Tr>
-            <Table.Th w="300">Name</Table.Th>
-            <Table.Th w="100">Type</Table.Th>
-            <Table.Th>Key</Table.Th>
-            <Table.Th w="150">Environment</Table.Th>
-            <Table.Th>Allowed Origins</Table.Th>
-            <Table.Th ta="right">Actions</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {apiKeys.map((apiKey) => (
-            <ApiKeyTableItem
-              key={apiKey.id}
-              apiKey={apiKey}
-              projectId={projectId ?? ''}
-              onRevoke={handleOpenRevokeDialog}
-            />
-          ))}
-        </Table.Tbody>
-      </Table>
+          <Table.Thead
+            className="bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]"
+          >
+            <Table.Tr>
+              <Table.Th w="300">Name</Table.Th>
+              <Table.Th w="100">Type</Table.Th>
+              <Table.Th>Key</Table.Th>
+              <Table.Th w="150">Environment</Table.Th>
+              <Table.Th>Allowed Origins</Table.Th>
+              <Table.Th ta="right">Actions</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {apiKeys.map((apiKey) => (
+              <ApiKeyTableItem
+                key={apiKey.id}
+                apiKey={apiKey}
+                projectId={projectId ?? ''}
+                onRevoke={handleOpenRevokeDialog}
+              />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
       <RevokeApiKeyDialog
         apiKey={selectedApiKey}
         opened={isRevokeDialogOpen}

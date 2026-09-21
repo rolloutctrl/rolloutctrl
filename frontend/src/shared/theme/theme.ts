@@ -50,7 +50,6 @@ const variantColorResolver: VariantColorsResolver = (input) => {
         ) as MantineColorScheme)
       : null;
 
-  // Override some properties for variant
   if (
     parsedColor.isThemeColor &&
     parsedColor.color === 'lime' &&
@@ -63,16 +62,6 @@ const variantColorResolver: VariantColorsResolver = (input) => {
     };
   }
 
-  // Completely override variant
-  // if (input.variant === 'light') {
-  //   return {
-  //     background: rgba(parsedColor.value, 0.1),
-  //     hover: rgba(parsedColor.value, 0.15),
-  //     border: `1px solid ${parsedColor.value}`,
-  //     color: darken(parsedColor.value, 0.1),
-  //   };
-  // }
-
   if (
     themeColor === 'dark' &&
     input.variant === 'light' &&
@@ -82,11 +71,8 @@ const variantColorResolver: VariantColorsResolver = (input) => {
     return {
       ...defaultResolvedColors,
       color: lighten(parsedColor.value, 0.3),
-      // color: parsedColor.value,
-      // hoverColor: 'var(--mantine-color-black)',
       background: rgba(parsedColor.value, 0.1),
       hover: rgba(parsedColor.value, 0.15),
-      // border: `1px solid ${parsedColor.value}`,
     };
   }
 
@@ -98,11 +84,8 @@ const variantColorResolver: VariantColorsResolver = (input) => {
     return {
       ...defaultResolvedColors,
       color: lighten(parsedColor.value, 0.3),
-      // color: parsedColor.value,
-      // hoverColor: 'var(--mantine-color-black)',
       background: rgba(parsedColor.value, 0.1),
       hover: rgba(parsedColor.value, 0.15),
-      // border: `1px solid ${parsedColor.value}`,
     };
   }
 
@@ -114,9 +97,6 @@ const variantColorResolver: VariantColorsResolver = (input) => {
     return {
       ...defaultResolvedColors,
       color: lighten(parsedColor.value, 0.3),
-      // color: parsedColor.value,
-      // hoverColor: 'var(--mantine-color-black)',
-      // background: rgba(parsedColor.value, 0.1),
       hover: rgba(parsedColor.value, 0.15),
       border: `1px solid ${parsedColor.value}`,
     };
@@ -130,14 +110,12 @@ const variantColorResolver: VariantColorsResolver = (input) => {
     return {
       ...defaultResolvedColors,
       color: darken(parsedColor.value, 0.1),
-      // hoverColor: 'var(--mantine-color-black)',
       background: rgba(parsedColor.value, 0.1),
       hover: rgba(parsedColor.value, 0.15),
       border: `1px solid ${parsedColor.value}`,
     };
   }
 
-  // Add new variants support
   if (input.variant === 'danger') {
     return {
       background: 'var(--mantine-color-red-9)',
@@ -182,13 +160,6 @@ export const theme = createTheme({
   headings: { fontFamily: 'Space Grotesk, sans-serif' },
 
   components: {
-    AppShell: {
-      // styles: {
-      //   main: {
-      //     backgroundColor: '#f3f4f6',
-      //   },
-      // },
-    },
 
     Drawer: {
       defaultProps: {
@@ -200,7 +171,6 @@ export const theme = createTheme({
       styles: (theme: { other: { primaryGradient: string } }) => ({
         header: {
           backgroundColor: theme.other.primaryGradient,
-          // borderBottom: '1px solid #e5e7eb',
         },
         title: {
           fontFamily: 'Space Grotesk, sans-serif',
@@ -223,7 +193,6 @@ export const theme = createTheme({
       styles: (theme: { other: { primaryGradient: string } }) => ({
         header: {
           backgroundColor: theme.other.primaryGradient,
-          // borderBottom: '1px solid #e5e7eb',
         },
         title: {
           fontFamily: 'Space Grotesk, sans-serif',
@@ -324,24 +293,6 @@ export const theme = createTheme({
           fontSize: '0.875rem',
         },
       },
-    },
-
-    Card: {
-      // styles: {
-      //   root: {
-      //     backgroundColor: '#ffffff',
-      //     border: '1px solid #e5e7eb',
-      //   },
-      // },
-    },
-
-    Paper: {
-      // styles: (theme) => ({
-      //   root: {
-      //     background: theme.other.primaryGradient,
-      //     // border: '1px solid #24304A',
-      //   },
-      // }),
     },
 
     Button: {

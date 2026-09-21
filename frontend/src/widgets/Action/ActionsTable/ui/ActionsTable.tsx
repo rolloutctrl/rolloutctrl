@@ -96,42 +96,40 @@ export const ActionsTable = () => {
 
   return (
     <div className="relative">
-      <Table
-        classNames={{
-          td: '!px-4',
-          th: '!px-4',
-        }}
-      >
-        <Table.Thead
-          className='bg-gray-100 dark:bg-dark'
-          style={{
-            position: 'sticky',
-            top: 60,
-            zIndex: 10,
+      <div className="overflow-x-auto lg:overflow-visible">
+        <Table
+          classNames={{
+            td: '!px-4 whitespace-nowrap',
+            th: '!px-4 whitespace-nowrap',
           }}
+          className="min-w-[600px]"
         >
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Created</Table.Th>
-            <RequiredProjectPermissionsWrapper
-              permissions={PermissionCode.ACTION_UPDATE}
-            >
-              <Table.Th w={100}>Actions</Table.Th>
-            </RequiredProjectPermissionsWrapper>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {(allActions || [])?.map((action) => (
-            <ActionTableItem
-              key={action?.id}
-              action={action}
-              colorScheme={colorScheme}
-              onEditAction={handleOpenEdit}
-              onDeleteAction={handleOpenDelete}
-            />
-          ))}
-        </Table.Tbody>
-      </Table>
+          <Table.Thead
+            className='bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]'
+          >
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Created</Table.Th>
+              <RequiredProjectPermissionsWrapper
+                permissions={PermissionCode.ACTION_UPDATE}
+              >
+                <Table.Th w={100}>Actions</Table.Th>
+              </RequiredProjectPermissionsWrapper>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {(allActions || [])?.map((action) => (
+              <ActionTableItem
+                key={action?.id}
+                action={action}
+                colorScheme={colorScheme}
+                onEditAction={handleOpenEdit}
+                onDeleteAction={handleOpenDelete}
+              />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
       {isFetchingNextPage && (
         <Center p="md">
           <Loader size="sm" />

@@ -16,7 +16,7 @@ export const ProjectSettingsView = () => {
             </Title>
           </div>
           <Grid columns={12} p="md">
-            <Grid.Col span={4} ta="left">
+            <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
               <Title order={3} fw={600} size="lg" ta="left" pb={4}>
                 General
               </Title>
@@ -24,7 +24,7 @@ export const ProjectSettingsView = () => {
                 Project name and description
               </Text>
             </Grid.Col>
-            <Grid.Col span={6} ta="left">
+            <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
               <EditProjectForm />
             </Grid.Col>
           </Grid>
@@ -33,7 +33,7 @@ export const ProjectSettingsView = () => {
           >
             <Divider my="md" />
             <Grid columns={12} p="md">
-              <Grid.Col span={4} ta="left">
+              <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
                 <Title order={3} fw={600} size="lg" ta="left" pb={4}>
                   Access management
                 </Title>
@@ -42,7 +42,7 @@ export const ProjectSettingsView = () => {
                   this project
                 </Text>
               </Grid.Col>
-              <Grid.Col span={6} ta="left">
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
                 <ProjectManageMembersContainer />
               </Grid.Col>
             </Grid>
@@ -52,7 +52,7 @@ export const ProjectSettingsView = () => {
           >
             <Divider my="md" />
             <Grid columns={12} p="md">
-              <Grid.Col span={4} ta="left">
+              <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
                 <Title order={3} fw={600} size="lg" ta="left" c="red" pb={4}>
                   Danger Zone
                 </Title>
@@ -60,7 +60,7 @@ export const ProjectSettingsView = () => {
                   This actions cannot be undone.
                 </Text>
               </Grid.Col>
-              <Grid.Col span={6} ta="left">
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
                 <DeleteProjectButton />
               </Grid.Col>
             </Grid>

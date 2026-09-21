@@ -67,13 +67,18 @@ export const editStrategyFormSchema = yup.object().shape({
       },
     )
     .optional(),
-  timezone: yup.string().when(['startsAt', 'endsAt'], {
-    is: (startsAt: Date | null | undefined, endsAt: Date | null | undefined) =>
-      startsAt != null || endsAt != null,
-    then: (schema) =>
-      schema.required('Timezone is required when a date is set'),
-    otherwise: (schema) => schema.optional(),
-  }),
+  timezone: yup
+    .string()
+    .nullable()
+    .when(['startsAt', 'endsAt'], {
+      is: (
+        startsAt: Date | null | undefined,
+        endsAt: Date | null | undefined,
+      ) => startsAt != null || endsAt != null,
+      then: (schema) =>
+        schema.required('Timezone is required when a date is set'),
+      otherwise: (schema) => schema.nullable().optional(),
+    }),
   rules: yup
     .array()
     .of(
@@ -85,13 +90,10 @@ export const editStrategyFormSchema = yup.object().shape({
           .required('Operator is required'),
         value: yup
           .mixed<string | string[]>()
-          .test(
-            'value-required',
-            'Rule value is required',
-            (value) =>
-              Array.isArray(value)
-                ? value.length > 0
-                : typeof value === 'string' && value.trim() !== '',
+          .test('value-required', 'Rule value is required', (value) =>
+            Array.isArray(value)
+              ? value.length > 0
+              : typeof value === 'string' && value.trim() !== '',
           )
           .required('Rule value is required'),
       }),

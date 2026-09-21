@@ -4,6 +4,7 @@ import {
   ActionIcon,
   Button,
   Divider,
+  Grid,
   Group,
   Loader,
   Paper,
@@ -63,20 +64,24 @@ export const AddOrganizationMemberForm = ({
               disabled={isPending}
             />
 
-            <Group gap="xs" grow align="start">
-              <PasswordField
-                name="password"
-                label="Password"
-                disabled={isPending}
-                required
-              />
-              <PasswordField
-                name="confirmPassword"
-                label="Confirm password"
-                disabled={isPending}
-                required
-              />
-            </Group>
+            <Grid columns={12}>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <PasswordField
+                  name="password"
+                  label="Password"
+                  disabled={isPending}
+                  required
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 12, lg: 6 }} ta="left">
+                <PasswordField
+                  name="confirmPassword"
+                  label="Confirm password"
+                  disabled={isPending}
+                  required
+                />
+              </Grid.Col>
+            </Grid>
 
             <SelectField
               name="role"

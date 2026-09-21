@@ -8,7 +8,7 @@ export const OrganizationsTab = () => {
     <RequiredProjectPermissionsWrapper redirect permissions={PermissionCode.ORG_MANAGE}>
       <Box p={0} className="flex flex-col w-full">
         <Grid columns={12} p="md">
-          <Grid.Col span={4} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 4 }} ta="left">
             <Title order={3} fw={600} size="lg" ta="left" pb={4}>
               General
             </Title>
@@ -16,7 +16,7 @@ export const OrganizationsTab = () => {
               Organization name, billing email and description
             </Text>
           </Grid.Col>
-          <Grid.Col span={5} ta="left">
+          <Grid.Col span={{ base: 12, md: 12, lg: 5 }} ta="left">
             <EditOrganizationForm />
           </Grid.Col>
         </Grid>

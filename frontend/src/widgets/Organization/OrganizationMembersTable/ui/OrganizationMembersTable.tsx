@@ -14,11 +14,7 @@ export const OrganizationMembersTable = () => {
     openDeleteDialog: false,
   });
 
-  const {
-    data: members,
-    isLoading,
-    isError,
-  } = useGetOrganizationMembers();
+  const { data: members, isLoading, isError } = useGetOrganizationMembers();
 
   const handleOpenModal = (value: boolean, modalName: string) =>
     setModalState({ ...modalState, [modalName]: value });
@@ -71,21 +67,15 @@ export const OrganizationMembersTable = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-auto lg:overflow-visible">
       <Table
         classNames={{
-          td: '!px-4',
-          th: '!px-4',
+          td: '!px-4 whitespace-nowrap',
+          th: '!px-4 whitespace-nowrap',
         }}
+        className="min-w-[700px]"
       >
-        <Table.Thead
-        // style={{
-        //   position: 'sticky',
-        //   top: 60,
-        //   zIndex: 10,
-        //   backgroundColor: 'white',
-        // }}
-        >
+        <Table.Thead className="bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]">
           <Table.Tr>
             <Table.Th>Member</Table.Th>
             <Table.Th w={350}>Projects</Table.Th>
@@ -104,16 +94,6 @@ export const OrganizationMembersTable = () => {
           ))}
         </Table.Tbody>
       </Table>
-      {/* <EditFeatureFlagModal
-        featureFlag={selectedFeatureFlag}
-        opened={modalState.openEditModal}
-        onClose={handleCloseModal}
-      />
-      <DeleteFeatureFlagDialog
-        featureFlag={selectedFeatureFlag}
-        opened={modalState.openDeleteDialog}
-        onClose={handleCloseModal}
-      /> */}
       <EditOrganizationMemberModal
         opened={modalState.openEditModal}
         member={selectedMember}
