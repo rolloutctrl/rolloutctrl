@@ -141,7 +141,7 @@ docker compose -f docker-compose.selfhost.yml up -d --build
 
 ## Tech stack
 
-- **Backend:** NestJS 10, Prisma 7, PostgreSQL 18, Redis 7, BullMQ
+- **Backend:** NestJS 12, Prisma 7, PostgreSQL 18, Redis 7, BullMQ
 - **Frontend:** React, Vite, Nginx
 - **Auth:** JWT (access + refresh), bcrypt
 - **SDKs:** `@rolloutctrl/js-sdk` (JS/TS), `@rolloutctrl/react-sdk` (React), `@rolloutctrl/node-sdk` (Node.js)
