@@ -1,18 +1,19 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateNotificationDto } from './dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreateNotificationDto } from '../dto';
 import {
   NOTIFICATION_QUEUE,
   NOTIFICATION_DELIVER_JOB,
-} from './notification.constants';
+} from '../notification.constants';
 import {
   NotificationChannel,
   NotificationStatus,
   Prisma,
 } from 'src/common/generated/prisma/client';
 import { OrganizationRole, TeamRole } from 'src/common/generated/prisma/enums';
+import { NotificationSseService } from './notification-sse.service';
 
 export interface NotificationJobData {
   notificationId: string;
@@ -26,6 +27,7 @@ export class NotificationService {
   constructor(
     @InjectQueue(NOTIFICATION_QUEUE) private readonly notificationQueue: Queue,
     private readonly prisma: PrismaService,
+    private readonly sseService: NotificationSseService,
   ) {}
 
   async createNotification(dto: CreateNotificationDto) {
@@ -71,6 +73,12 @@ export class NotificationService {
     this.logger.log(
       `Notification ${notification.id} created and enqueued for delivery`,
     );
+
+    this.sseService
+      .pushUnreadCount(dto.userId)
+      .catch((err) =>
+        this.logger.error(`Failed to push SSE unread count: ${err.message}`),
+      );
 
     return notification;
   }
@@ -156,6 +164,14 @@ export class NotificationService {
       `Notification sent to ${recipientIds.length} recipients (owners + project admins) for organization ${organizationId}`,
     );
 
+    recipientIds.forEach((userId) =>
+      this.sseService
+        .pushUnreadCount(userId)
+        .catch((err) =>
+          this.logger.error(`Failed to push SSE unread count: ${err.message}`),
+        ),
+    );
+
     return notifications;
   }
 
@@ -191,15 +207,6 @@ export class NotificationService {
     };
   }
 
-  async getUnreadCount(userId: string): Promise<number> {
-    return this.prisma.notification.count({
-      where: {
-        userId,
-        status: NotificationStatus.UNREAD,
-      },
-    });
-  }
-
   async markAsRead(notificationId: string, userId: string) {
     const notification = await this.prisma.notification.findFirst({
       where: { id: notificationId, userId },
@@ -209,13 +216,21 @@ export class NotificationService {
       throw new NotFoundException('Notification not found');
     }
 
-    return this.prisma.notification.update({
+    const updated = await this.prisma.notification.update({
       where: { id: notificationId },
       data: {
         status: NotificationStatus.READ,
         readAt: new Date(),
       },
     });
+
+    this.sseService
+      .pushUnreadCount(userId)
+      .catch((err) =>
+        this.logger.error(`Failed to push SSE unread count: ${err.message}`),
+      );
+
+    return updated;
   }
 
   async markAllAsRead(userId: string) {
@@ -230,6 +245,12 @@ export class NotificationService {
       },
     });
 
+    this.sseService
+      .pushUnreadCount(userId)
+      .catch((err) =>
+        this.logger.error(`Failed to push SSE unread count: ${err.message}`),
+      );
+
     return { updated: result.count };
   }
 
@@ -242,9 +263,17 @@ export class NotificationService {
       throw new NotFoundException('Notification not found');
     }
 
-    return this.prisma.notification.update({
+    const updated = await this.prisma.notification.update({
       where: { id: notificationId },
       data: { status: NotificationStatus.ARCHIVED },
     });
+
+    this.sseService
+      .pushUnreadCount(userId)
+      .catch((err) =>
+        this.logger.error(`Failed to push SSE unread count: ${err.message}`),
+      );
+
+    return updated;
   }
 }

@@ -4,12 +4,24 @@ import {
   Controller,
   Get,
   Headers,
+  HttpCode,
+  HttpStatus,
   Post,
   Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AccessService } from './access.service';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiSecurity,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Access')
+@ApiSecurity('api-key')
 @Controller('access')
 export class AccessController {
   constructor(private readonly accessService: AccessService) {}
@@ -18,6 +30,11 @@ export class AccessController {
    * Evaluation API (debug / fallback)
    */
   @Post('evaluate')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Evaluate access permission (debug / fallback)' })
+  @ApiOkResponse({ description: 'Access evaluation result' })
+  @ApiBadRequestResponse({ description: 'Invalid request body' })
+  @ApiUnauthorizedResponse({ description: 'Missing API key' })
   async evaluate(
     @Body()
     body: {
@@ -65,6 +82,11 @@ export class AccessController {
    * }
    */
   @Post('evaluate/flag')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Evaluate a feature flag' })
+  @ApiOkResponse({ description: 'Feature flag evaluation result' })
+  @ApiBadRequestResponse({ description: 'Invalid request body' })
+  @ApiUnauthorizedResponse({ description: 'Missing API key' })
   async evaluateFlag(
     @Body()
     body: {
@@ -93,6 +115,11 @@ export class AccessController {
   }
 
   @Get('config')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get public access configuration' })
+  @ApiOkResponse({ description: 'Public configuration for the environment' })
+  @ApiBadRequestResponse({ description: 'Missing environment' })
+  @ApiUnauthorizedResponse({ description: 'Missing API key' })
   async getConfig(
     @Query('environment') environment: string,
     @Headers('x-api-key') apiKey: string,

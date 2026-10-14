@@ -8,6 +8,8 @@ import {
   Query,
   UseGuards,
   Patch,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { VariantService } from './variant.service';
 import { CreateVariantRequestDto, UpdateVariantRequestDto } from './dto';
@@ -18,14 +20,30 @@ import { PermissionCode } from 'src/common/constants/permissions.constants';
 import { User } from 'src/common/generated/prisma/client';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CurrentProjectId } from 'src/common/decorators/current-project-id.decorator';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Variants')
+@ApiBearerAuth()
 @Controller('variants')
 export class VariantController {
   constructor(private readonly variantService: VariantService) {}
 
   @Get('flag/:flagId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.VARIANT_READ)
+  @ApiOperation({ summary: 'Get all variants for a feature flag' })
+  @ApiOkResponse({ description: 'List of variants' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async findVariantsByFlagId(
     @Param('flagId') flagId: string,
     @Query('projectId') projectId: string,
@@ -34,8 +52,13 @@ export class VariantController {
   }
 
   @Post('flag/:flagId')
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.VARIANT_CREATE)
+  @ApiOperation({ summary: 'Create a variant for a feature flag' })
+  @ApiCreatedResponse({ description: 'Variant created successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async createVariant(
     @CurrentUser() user: User,
     @Param('flagId') flagId: string,
@@ -49,8 +72,13 @@ export class VariantController {
   }
 
   @Patch(':variantId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.VARIANT_UPDATE)
+  @ApiOperation({ summary: 'Update a variant' })
+  @ApiOkResponse({ description: 'Variant updated successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async updateVariant(
     @CurrentUser() user: User,
     @Param('variantId') variantId: string,
@@ -60,8 +88,13 @@ export class VariantController {
   }
 
   @Delete(':variantId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.VARIANT_DELETE)
+  @ApiOperation({ summary: 'Delete a variant' })
+  @ApiOkResponse({ description: 'Variant deleted successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async deleteVariant(
     @CurrentUser() user: User,
     @CurrentProjectId() projectId: string,
@@ -72,8 +105,13 @@ export class VariantController {
   }
 
   @Get(':variantId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.VARIANT_READ)
+  @ApiOperation({ summary: 'Get a variant by id' })
+  @ApiOkResponse({ description: 'Variant details' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async findVariantById(
     @Param('variantId') variantId: string,
     @CurrentProjectId() projectId: string,

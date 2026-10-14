@@ -55,7 +55,7 @@ export const ApiKeysTable = () => {
 
   return (
     <>
-      <div className="overflow-x-auto lg:overflow-visible">
+      <div className="overflow-x-auto">
         <Table
           classNames={{
             td: '!px-4 whitespace-nowrap',
@@ -63,9 +63,7 @@ export const ApiKeysTable = () => {
           }}
           className="min-w-[800px]"
         >
-          <Table.Thead
-            className="bg-gray-100 dark:bg-dark lg:sticky lg:top-[60px] lg:z-[100]"
-          >
+          <Table.Thead className="bg-gray-100 dark:bg-dark">
             <Table.Tr>
               <Table.Th w="300">Name</Table.Th>
               <Table.Th w="100">Type</Table.Th>

@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -23,14 +25,32 @@ import { ToggleFeatureFlagRequestDto } from './dto/toggle-flag.dto';
 import { FeatureFlag, User } from 'src/common/generated/prisma/client';
 import { ToggleFlagFavoriteRequestDto } from './dto/toggle-flag-favorite.dto';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import {
+  ApiBearerAuth,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Feature Flags')
+@ApiBearerAuth()
 @Controller('feature-flags')
 export class FeatureFlagController {
   constructor(private readonly featureFlagService: FeatureFlagService) {}
 
   @Get('project/:projectId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_READ)
+  @ApiOperation({ summary: 'Get all feature flags for a project' })
+  @ApiOkResponse({ description: 'Paginated list of feature flags' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   getAll(
     @Param('projectId') projectId: string,
     @Query('includeArchived') includeArchived?: string,
@@ -46,15 +66,26 @@ export class FeatureFlagController {
   }
 
   @Get(':flagId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_READ)
+  @ApiOperation({ summary: 'Get a feature flag by id' })
+  @ApiOkResponse({ description: 'Feature flag details' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   get(@Param('flagId') flagId: string, @Query('projectId') projectId: string) {
     return this.featureFlagService.findFeatureFlagById(flagId, projectId);
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_CREATE)
+  @ApiOperation({ summary: 'Create one or multiple feature flags' })
+  @ApiCreatedResponse({ description: 'Feature flag(s) created successfully' })
+  @ApiBadRequestResponse({ description: 'Invalid request body' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   create(
     @CurrentUser() user: User,
     @Body() dto: CreateFeatureFlagRequestDto,
@@ -82,8 +113,13 @@ export class FeatureFlagController {
   }
 
   @Patch(':flagId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_UPDATE)
+  @ApiOperation({ summary: 'Update a feature flag' })
+  @ApiOkResponse({ description: 'Feature flag updated successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   update(
     @Param('flagId') flagId: string,
     @Body() dto: UpdateFeatureFlagRequestDto,
@@ -96,8 +132,15 @@ export class FeatureFlagController {
   }
 
   @Post('configure')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_UPDATE)
+  @ApiOperation({ summary: 'Configure a feature flag for an environment' })
+  @ApiOkResponse({
+    description: 'Flag configured for environment successfully',
+  })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   configureEnvironment(
     @CurrentUser() user: User,
     @Body() dto: ToggleFeatureFlagRequestDto,
@@ -106,8 +149,13 @@ export class FeatureFlagController {
   }
 
   @Patch(':flagId/toggle-favorite')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_UPDATE)
+  @ApiOperation({ summary: 'Toggle feature flag favorite status' })
+  @ApiOkResponse({ description: 'Favorite status toggled successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   toggleFavorite(
     @Param('flagId') flagId: string,
     @Body() dto: ToggleFlagFavoriteRequestDto,
@@ -116,8 +164,13 @@ export class FeatureFlagController {
   }
 
   @Delete(':flagId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.FLAG_DELETE)
+  @ApiOperation({ summary: 'Delete a feature flag' })
+  @ApiNoContentResponse({ description: 'Feature flag deleted successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   delete(
     @CurrentUser() user: User,
     @Param('flagId') flagId: string,

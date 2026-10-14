@@ -6,6 +6,8 @@ import { ConfigService } from '@nestjs/config';
 import { ICorsConfig } from './config/cors.config';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { version } from '../package.json';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,6 +22,19 @@ async function bootstrap() {
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  // Swagger
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('RolloutCtrl API')
+    .setDescription(
+      'RolloutCtrl — open-source, self-hosted platform for feature flags, progressive delivery, and access control.',
+    )
+    .setVersion(version)
+    .addBearerAuth()
+    .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'api-key')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('docs', app, document);
 
   // CORS
   const corsConfig = configService.getOrThrow<ICorsConfig>('cors');

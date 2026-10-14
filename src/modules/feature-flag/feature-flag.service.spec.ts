@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AccessService } from '../access/access.service';
 import { AuditLogService } from '../audit-log/audit-log.service';
 import { EnvironmentService } from '../environment/environment.service';
-import { NotificationService } from '../notification/notification.service';
+import { NotificationService } from '../notification/services/notification.service';
 import { createMockPrismaService } from 'src/common/testing/mock-prisma';
 import { evaluateRule } from '../access/access.utils';
 import { hashCode } from 'src/common/utils/utils';

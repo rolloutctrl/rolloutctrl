@@ -6,7 +6,7 @@ import {
   NOTIFICATION_QUEUE,
   NOTIFICATION_DELIVER_JOB,
 } from './notification.constants';
-import { NotificationJobData } from './notification.service';
+import { NotificationJobData } from './services/notification.service';
 import {
   NotificationChannel,
   NotificationDeliveryStatus,
