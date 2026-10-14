@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-10-14
+
+### Fixed
+
+* Removed temporary frontend Docker workaround that copied an unpublished `vite-plugin-bundle-optimizer` from `vendor/` into `node_modules/` during the image build. The plugin is now installed normally from npm, so the `vendor/vite-plugin-bundle-optimizer` directory and the corresponding `rm -rf`/`cp -r` steps are no longer needed.
+
 ## [1.3.0] - 2026-10-14
 
 ### Added
