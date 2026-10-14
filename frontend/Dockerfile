@@ -11,7 +11,8 @@ RUN yarn config set registry https://registry.npmjs.org && \
 
 COPY . .
 
-ENV VITE_API_URL=/api
+
+ENV VITE_API_URL=
 RUN yarn build
 
 # ---- Runner stage ----
