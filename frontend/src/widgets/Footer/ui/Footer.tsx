@@ -12,6 +12,10 @@ const DOCS_LINKS = [
     href: 'https://github.com/rolloutctrl/rolloutctrl/blob/main/docs/api.md',
   },
   {
+    label: 'Swagger',
+    href: `${import.meta.env.VITE_API_URL}/docs`,
+  },
+  {
     label: 'Changelog',
     href: 'https://github.com/rolloutctrl/rolloutctrl/blob/main/CHANGELOG.md',
   },
@@ -46,24 +50,6 @@ export const Footer = () => {
           </Group>
         </Grid.Col>
       </Grid>
-      {/* <Group justify="space-between" wrap="nowrap">
-        <Text size="sm" c="dimmed">
-          © {new Date().getFullYear()} RolloutCtrl · v{pkg.version}
-        </Text>
-        <Group gap="lg">
-          {DOCS_LINKS.map((link) => (
-            <Anchor
-              key={link.label}
-              href={link.href}
-              size="sm"
-              c="dimmed"
-              target="_blank"
-            >
-              {link.label}
-            </Anchor>
-          ))}
-        </Group>
-      </Group> */}
     </AppShell.Footer>
   );
 };

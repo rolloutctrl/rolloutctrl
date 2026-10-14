@@ -1,6 +1,6 @@
 {
   "name": "rolloutctrl",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "RolloutCtrl is an open-source, self-hosted platform for feature flags, progressive delivery, and access control.",
   "keywords": [
     "rollout control",
@@ -65,6 +65,7 @@
     "@nestjs/mapped-types": "^12.0.0",
     "@nestjs/passport": "^12.0.0",
     "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/swagger": "12.0.2",
     "@nestjs/throttler": "^6.5.0",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
@@ -85,6 +86,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
+    "@brakebein/prisma-generator-nestjs-dto": "^1.30.0",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "@nestjs/cli": "^12.0.0",

@@ -8,7 +8,7 @@ export type ErrorWithStatusCode = {
 };
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
   timeout: 30000,
   withCredentials: true,
   headers: {
@@ -98,7 +98,7 @@ apiClient.interceptors.response.use(
 
     refreshPromise = (async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/refresh`, {
           withCredentials: true,
         });
 

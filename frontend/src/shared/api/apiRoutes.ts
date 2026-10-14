@@ -129,7 +129,7 @@ export const apiRoutes = {
   },
   notifications: {
     list: '/notifications',
-    unreadCount: '/notifications/unread-count',
+    unreadCountSse: '/notifications/unread-count',
     markAsRead: (notificationId?: string) =>
       `/notifications/${notificationId}/read`,
   },

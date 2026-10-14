@@ -28,7 +28,7 @@ import { ToggleFeatureFlagRequestDto } from './dto/toggle-flag.dto';
 import { AuditLogService } from '../audit-log/audit-log.service';
 import { AuditMetadata } from '../audit-log/lib';
 import { EnvironmentService } from '../environment/environment.service';
-import { NotificationService } from '../notification/notification.service';
+import { NotificationService } from '../notification/services/notification.service';
 
 @Injectable()
 export class FeatureFlagService {

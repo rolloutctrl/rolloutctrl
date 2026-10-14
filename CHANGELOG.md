@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-10-14
+
+### Added
+
+* Swagger/OpenAPI documentation served at `/docs`, configured via `DocumentBuilder` with Bearer and API key (`x-api-key`) auth schemes. All controllers are now annotated with `@ApiTags`, `@ApiOperation`, and response decorators.
+* `@nestjs/swagger` dependency for OpenAPI spec generation.
+* `prisma-generator-nestjs-dto` generator producing DTO and entity classes with `@ApiProperty` decorators for every Prisma model, output to `src/common/generated/nestjs-dto/`.
+* Server-Sent Events (SSE) for real-time unread notification counts:
+  * New `NotificationSseService` maintaining per-user RxJS `Subject` streams.
+  * New `@Sse('unread-count')` endpoint on `NotificationController` that emits the current count immediately and pushes updates on changes.
+  * `NotificationService` now pushes the updated unread count to active SSE subscribers when a notification is created or marked as read.
+* Frontend SSE client via `@microsoft/fetch-event-source` with automatic reconnection, replacing the previous 10-second polling interval for unread notification counts.
+* "Swagger" link in the frontend footer pointing to `/docs`.
+* `vite-plugin-bundle-optimizer` for frontend bundle analysis and optimization (HTML report at `frontend/bundle-report.html`).
+
+### Changed
+
+* `GET /notifications/unread-count` (polling) replaced by the SSE stream `GET /notifications/unread-count`.
+* Frontend `apiClient` `baseURL` normalized to include the `/api` prefix; `apiRoutes` and the token-refresh call updated accordingly.
+* `frontend/.env.selfhost.example` `VITE_API_URL` no longer includes the `/api` suffix (now `http://localhost:3000`).
+* `resolveJsonModule` enabled in `tsconfig.json` to import the app version from `package.json` into the Swagger config.
+* Notification service files reorganized into `src/modules/notification/services/`.
+
+
 ## [1.2.0] - 2026-09-21
 
 ### Added

@@ -811,8 +811,17 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    /**
+     * @DtoJsonProperty({ example: cms08xvf100034qpi9rjk1jdx })
+     */
     id: string
+    /**
+     * @DtoJsonProperty({ example: My Organization })
+     */
     name: string
+    /**
+     * @DtoJsonProperty({ example: Some description here })
+     */
     description: string | null
     url: string | null
     createdAt: Date

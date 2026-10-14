@@ -3,6 +3,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Post,
   Query,
   Req,
@@ -13,7 +15,17 @@ import { SdkKeyGuard } from '../guards/sdk-key.guard';
 import { SdkServerGuard } from '../guards/sdk-server.guard';
 import { SdkServerService } from '../services/sdk-server.service';
 import { SdkEvaluationBatchDto } from '../dto/sdk-evaluate.dto';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiSecurity,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('SDK Server')
+@ApiSecurity('api-key')
 @Controller('sdk/server')
 @UseGuards(SdkKeyGuard, SdkServerGuard)
 @SkipThrottle()
@@ -21,6 +33,11 @@ export class SdkServerController {
   constructor(private readonly sdkServerService: SdkServerService) {}
 
   @Get('config')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get server SDK configuration for an environment' })
+  @ApiOkResponse({ description: 'Server SDK configuration payload' })
+  @ApiBadRequestResponse({ description: 'Missing environment query parameter' })
+  @ApiUnauthorizedResponse({ description: 'Invalid API key' })
   async getConfig(@Req() req: any, @Query('environment') environment: string) {
     if (!environment || environment.trim().length === 0) {
       throw new BadRequestException('Missing environment query parameter');
@@ -30,6 +47,13 @@ export class SdkServerController {
   }
 
   @Get('config/changes')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get server SDK configuration changes since a version',
+  })
+  @ApiOkResponse({ description: 'Server SDK configuration changes' })
+  @ApiBadRequestResponse({ description: 'Invalid parameters' })
+  @ApiUnauthorizedResponse({ description: 'Invalid API key' })
   async getConfigChanges(
     @Req() req: any,
     @Query('environment') environment: string,
@@ -52,6 +76,13 @@ export class SdkServerController {
   }
 
   @Post('evaluations')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Track server SDK evaluation events' })
+  @ApiOkResponse({ description: 'Evaluations tracked successfully' })
+  @ApiBadRequestResponse({
+    description: 'evaluations must be a non-empty array',
+  })
+  @ApiUnauthorizedResponse({ description: 'Invalid API key' })
   async trackEvaluations(@Req() req: any, @Body() body: SdkEvaluationBatchDto) {
     if (
       !body?.evaluations ||

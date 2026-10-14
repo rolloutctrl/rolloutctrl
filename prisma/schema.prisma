@@ -8,12 +8,38 @@ generator client {
   output   = "../src/common/generated/prisma"
 }
 
+generator nestjsDto {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../src/common/generated/nestjs-dto"
+  prismaClientImportPath          = ""
+  outputToNestJsResourceStructure = "false"
+  flatResourceStructure           = "false"
+  exportRelationModifierClasses   = "true"
+  reExport                        = "false"
+  generateFileTypes               = "all"
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  classValidation                 = "false"
+  fileNamingStyle                 = "camel"
+  noDependencies                  = "false"
+  outputType                      = "class"
+  definiteAssignmentAssertion     = "false"
+  requiredResponseApiProperty     = "true"
+  jsdoc                           = "false"
+  prettier                        = "false"
+  wrapRelationsAsType             = "false"
+  showDefaultValues               = "false"
+}
+
 datasource db {
   provider = "postgresql"
 }
 
 model Organization {
-  id          String  @id @default(cuid()) @map("_id")
+  id          String  @id @default(cuid()) @map("_id") 
   name        String
   description String?
 

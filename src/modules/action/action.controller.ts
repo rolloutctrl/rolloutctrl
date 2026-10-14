@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -19,14 +21,31 @@ import { PermissionCode } from 'src/common/constants/permissions.constants';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CurrentProjectId } from 'src/common/decorators/current-project-id.decorator';
 import { User } from 'src/common/generated/prisma/client';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Actions')
+@ApiBearerAuth()
 @Controller('actions')
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_CREATE)
+  @ApiOperation({ summary: 'Create a new action' })
+  @ApiCreatedResponse({ description: 'Action created successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async createAction(
     @CurrentUser() user: User,
     @Body() dto: CreateActionRequestDto,
@@ -35,8 +54,13 @@ export class ActionController {
   }
 
   @Get('project/:projectId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_READ)
+  @ApiOperation({ summary: 'Get all actions for a project' })
+  @ApiOkResponse({ description: 'Paginated list of actions' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async getAllActions(
     @Param('projectId') projectId: string,
     @Query('cursor') cursor?: string,
@@ -50,8 +74,13 @@ export class ActionController {
   }
 
   @Get(':actionId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_READ)
+  @ApiOperation({ summary: 'Get a single action by id' })
+  @ApiOkResponse({ description: 'Action details' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async getAction(
     @Param('actionId') actionId: string,
     @Query('projectId') projectId: string,
@@ -60,8 +89,13 @@ export class ActionController {
   }
 
   @Patch(':actionId')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_UPDATE)
+  @ApiOperation({ summary: 'Update an action' })
+  @ApiOkResponse({ description: 'Action updated successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async updateAction(
     @CurrentUser() user: User,
     @CurrentProjectId() projectId: string,
@@ -72,8 +106,13 @@ export class ActionController {
   }
 
   @Patch(':actionId/reorder')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_UPDATE)
+  @ApiOperation({ summary: 'Reorder action strategies' })
+  @ApiOkResponse({ description: 'Strategies reordered successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async reorderActionStrategies(
     @Param('actionId') actionId: string,
     @Body() dto: ReorderRulesRequestDto,
@@ -82,8 +121,13 @@ export class ActionController {
   }
 
   @Delete(':actionId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard, RoleAccessGuard)
   @RequiredPermissions(PermissionCode.ACTION_DELETE)
+  @ApiOperation({ summary: 'Delete an action' })
+  @ApiNoContentResponse({ description: 'Action deleted successfully' })
+  @ApiForbiddenResponse({ description: 'Insufficient permissions' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   async deleteAction(
     @CurrentUser() user: User,
     @CurrentProjectId() projectId: string,

@@ -7,10 +7,12 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBell } from '@tabler/icons-react';
 import { NotificationsList } from './NotificationsList';
 import { useGetUnreadNotificationCount } from '@/entities/Notification';
+import { useAuthContext } from '@/app/providers/AuthProvider';
 
 export const NotificationsDrawer = () => {
+  const { isAuthenticated } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: unreadCount } = useGetUnreadNotificationCount();
+  const { data: unreadCount } = useGetUnreadNotificationCount(isAuthenticated);
   return (
     <>
       {unreadCount && unreadCount?.count > 0 ? (

@@ -1,6 +1,11 @@
 import { Badge, Group, Input } from '@mantine/core';
 import { Spotlight, spotlight } from '@mantine/spotlight';
-import { IconHelp, IconHome, IconSearch } from '@tabler/icons-react';
+import {
+  IconApiBook,
+  IconHelp,
+  IconHome,
+  IconSearch,
+} from '@tabler/icons-react';
 import { useSearchInProjectSpotlight } from '../lib/useSearchInProjectSpotlight';
 import type { SpotlightActionData } from '@mantine/spotlight';
 import { useNavigate } from 'react-router-dom';
@@ -27,10 +32,19 @@ export const SearchInProjectSpotlight = ({
       label: 'Documentation',
       description: 'Visit documentation to lean more about all features',
       onClick: () =>
-        navigate(
+        window.open(
           'https://github.com/rolloutctrl/rolloutctrl/blob/main/README.md#documentation',
+          '_blank',
         ),
       leftSection: <IconHelp size={24} />,
+    },
+    {
+      id: 'swagger',
+      label: 'Swagger',
+      description: 'Visit Swagger to see API documentation',
+      onClick: () =>
+        window.open(`${import.meta.env.VITE_API_URL}/docs`, '_blank'),
+      leftSection: <IconApiBook size={24} />,
     },
   ];
 

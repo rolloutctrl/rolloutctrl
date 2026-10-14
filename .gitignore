@@ -40,3 +40,9 @@ lerna-debug.log*
 
 # env
 .env
+
+# local
+docker-compose.dev.yml
+/frontend/Dockerfile.local
+/frontend/bundle-report.html
+/frontend/vendor
