@@ -91,6 +91,12 @@ model ApiKey {
 
   type ApiKeyType
 
+  // For AGENT keys: the agent user created alongside the key. The agent user
+  // is added as a ProjectMember and acts as the audit actor for MCP operations
+  // performed with this key. Null for CLIENT/SERVER keys.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
   allowedOrigins String[]
 
   createdAt DateTime  @default(now())
@@ -122,6 +128,8 @@ model User {
   avatar   String?
   bio      String?
 
+  isAgent Boolean @default(false)
+
   isActive  Boolean   @default(true)
   updatedAt DateTime  @updatedAt
   joinedAt  DateTime?
@@ -136,6 +144,7 @@ model User {
   auditLogs      AuditLog[]
   userIdentities UserIdentity[]
   notifications  Notification[]
+  agentApiKeys   ApiKey[]
 }
 
 model UserIdentity {
@@ -594,6 +603,7 @@ enum MatchType {
 }
 
 enum ApiKeyType {
+  AGENT
   CLIENT
   SERVER
 }
@@ -731,6 +741,7 @@ enum NotificationStatus {
 
 enum AuditAction {
   CREATE
+  READ
   UPDATE
   DELETE
   ENABLE

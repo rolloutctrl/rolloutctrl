@@ -37,7 +37,7 @@ export class CreateProjectApiKeyRequestDto {
     description: 'Allowed origins (required for CLIENT type)',
     example: ['https://example.com'],
   })
-  @ValidateIf((o) => o.type !== ApiKeyType.SERVER)
+  @ValidateIf((o) => o.type === ApiKeyType.CLIENT)
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })

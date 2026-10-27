@@ -109,6 +109,10 @@ You're in. Create a project, add a feature flag, grab an API key, and start eval
 
 Ready-to-run examples for all supported SDKs are available in the [`examples`](https://github.com/rolloutctrl/js-core/tree/main/examples) directory.
 
+### MCP for AI agents
+
+RolloutCtrl exposes an MCP (Model Context Protocol) server at `POST /mcp` so AI agents can manage feature flags, strategies, variants, segments, and actions — scoped to selected projects via AGENT API keys. See [docs/MCP_GUIDE.md](docs/MCP_GUIDE.md) for setup and examples.
+
 ### One-command self-host (Docker)
 
 Prefer the full stack in Docker?
@@ -135,6 +139,7 @@ docker compose -f docker-compose.selfhost.yml up -d --build
 | [SDK](docs/sdk.md)                         | Client & Server SDKs, evaluation API, metrics reporting               |
 | [API Reference](docs/api.md)               | Full management & SDK endpoint documentation                          |
 | [Permissions & Roles](docs/permissions.md) | Organization & team roles, permission codes, RBAC enforcement         |
+| [MCP for AI Agents](docs/MCP_GUIDE.md)     | Connect AI agents via MCP: auth, tools, examples, security           |
 | [Roadmap](ROADMAP.md)                      | Project roadmap, planned features, and progress                       |
 
 ---

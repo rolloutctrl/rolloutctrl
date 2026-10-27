@@ -70,6 +70,7 @@ export type MatchType = (typeof MatchType)[keyof typeof MatchType]
 
 
 export const ApiKeyType = {
+  AGENT: 'AGENT',
   CLIENT: 'CLIENT',
   SERVER: 'SERVER'
 } as const
@@ -149,6 +150,7 @@ export type NotificationStatus = (typeof NotificationStatus)[keyof typeof Notifi
 
 export const AuditAction = {
   CREATE: 'CREATE',
+  READ: 'READ',
   UPDATE: 'UPDATE',
   DELETE: 'DELETE',
   ENABLE: 'ENABLE',

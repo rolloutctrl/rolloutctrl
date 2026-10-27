@@ -10,5 +10,6 @@ import { AuditLogModule } from '../audit-log/audit-log.module';
   imports: [PrismaModule, AccessModule, EnvironmentModule, AuditLogModule],
   providers: [VariantService],
   controllers: [VariantController],
+  exports: [VariantService],
 })
 export class VariantModule {}

@@ -5,11 +5,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 import {
   ApiKey,
   ApiKeyType,
   AuditAction,
+  OrganizationRole,
   ResourceType,
+  TeamRole,
   User,
 } from 'src/common/generated/prisma/client';
 import { CreateProjectApiKeyRequestDto } from '../dto/create-api-key.dto';
@@ -17,6 +20,8 @@ import { truncateString } from 'src/common/utils/utils';
 import { AuditLogService } from 'src/modules/audit-log/audit-log.service';
 import { AuditMetadata } from 'src/modules/audit-log/lib';
 import { ApiKeyBasic } from '../types/api-key.types';
+
+const AGENT_EMAIL_DOMAIN = 'rolloutctrl.local';
 
 @Injectable()
 export class ApiKeyService {
@@ -38,7 +43,7 @@ export class ApiKeyService {
       !projectId ||
       !environmentId ||
       !type ||
-      (type === ApiKeyType.CLIENT && !allowedOrigins.length)
+      (type === ApiKeyType.CLIENT && !(allowedOrigins ?? []).length)
     ) {
       throw new BadRequestException('Missing required parameters');
     }
@@ -71,19 +76,46 @@ export class ApiKeyService {
       return origin.toLowerCase();
     });
 
+    // For AGENT keys, provision a dedicated agent user that acts as the audit
+    // actor for MCP operations performed with this key. The agent user is a
+    // member of the project's organization and a DEVELOPER-level member of the
+    // key's project (permissions are still enforced by the MCP allowlist, not
+    // by the team role — the role only satisfies the existing
+    // RoleAccessGuard model).
+    let agentUserId: string | null = null;
+    if (type === ApiKeyType.AGENT) {
+      if (!project.organizationId) {
+        throw new BadRequestException(
+          'Project has no organization; cannot create an AGENT key',
+        );
+      }
+      const agentUser = await this.createAgentUser(project.organizationId);
+      agentUserId = agentUser.id;
+
+      // Add the agent user as a DEVELOPER member of the key's project.
+      await this.prisma.projectMember.create({
+        data: {
+          projectId: project.id,
+          userId: agentUser.id,
+          role: TeamRole.DEVELOPER,
+        },
+      });
+    }
+
     const newApiKey = await this.prisma.apiKey.create({
       data: {
         name,
         keyHash: apiKeyHash,
         previewKey: truncateString(rawApiKeyWithPrefix),
         type,
-        allowedOrigins: normalizeAllowedOrigins,
+        allowedOrigins: normalizeAllowedOrigins ?? [],
         project: {
           connect: {
             id: project.id,
           },
         },
         environmentId: environment.id,
+        ...(agentUserId ? { user: { connect: { id: agentUserId } } } : {}),
       },
     });
 
@@ -100,13 +132,47 @@ export class ApiKeyService {
           name: environment.name,
         })
         .with({
-          allowedOrigins: allowedOrigins.join(', '),
+          allowedOrigins: (allowedOrigins ?? []).join(', '),
         })
         .toJSON(),
     });
     return {
       key: rawApiKeyWithPrefix,
     };
+  }
+
+  /**
+   * Provision a dedicated agent user for an AGENT API key.
+   *
+   * The user has `isAgent: true`, a generated email of the form
+   * `agent[N]@rolloutctrl.local` (uniquely numbered within the organization's
+   * domain) and a random password (agents never log in via password — they
+   * authenticate via the API key). The user is a MEMBER of the organization.
+   */
+  private async createAgentUser(organizationId: string) {
+    const password = crypto.randomBytes(32).toString('hex');
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Generate a unique agent email within the domain. We count existing
+    // agent users to produce `agent`, `agent1`, `agent2`, ... The base name
+    // is "Agent", "Agent 1", "Agent 2", ... to match.
+    const existingAgents = await this.prisma.user.count({
+      where: { isAgent: true, email: { endsWith: `@${AGENT_EMAIL_DOMAIN}` } },
+    });
+    const suffix = existingAgents === 0 ? '' : String(existingAgents);
+    const email = `agent${suffix}@${AGENT_EMAIL_DOMAIN}`;
+    const name = existingAgents === 0 ? 'Agent' : `Agent ${existingAgents}`;
+
+    return this.prisma.user.create({
+      data: {
+        email,
+        password: passwordHash,
+        name,
+        isAgent: true,
+        organizationId,
+        organizationRole: OrganizationRole.MEMBER,
+      },
+    });
   }
 
   async revokeByKeyId(currentUser: User, projectId: string, keyId: string) {

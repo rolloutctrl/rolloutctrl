@@ -33,6 +33,10 @@ export class UserDto {
   @ApiProperty({
     type: 'boolean',
   })
+  isAgent: boolean;
+  @ApiProperty({
+    type: 'boolean',
+  })
   isActive: boolean;
   @ApiProperty({
     type: 'string',

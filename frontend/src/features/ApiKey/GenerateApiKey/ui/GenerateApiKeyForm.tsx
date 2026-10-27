@@ -90,6 +90,7 @@ export const GenerateApiKeyForm = ({ onClose }: GenerateApiKeyFormProps) => {
                   <Group mt="xs">
                     <Radio value={ApiKeyType.CLIENT} label="Client" />
                     <Radio value={ApiKeyType.SERVER} label="Server" />
+                    <Radio value={ApiKeyType.AGENT} label="Agent" />
                   </Group>
                 </Radio.Group>
               )}

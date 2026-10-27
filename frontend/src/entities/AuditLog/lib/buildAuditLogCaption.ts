@@ -4,6 +4,7 @@ import type { AuditLog } from '../model/types';
 
 const ACTION_VERB: Record<string, string> = {
   CREATE: 'Created',
+  READ: 'Read',
   UPDATE: 'Updated',
   DELETE: 'Deleted',
   ENABLE: 'Enabled',

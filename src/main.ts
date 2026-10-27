@@ -21,7 +21,9 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+  // MCP endpoint is mounted at `/mcp` (not `/api/mcp`) so MCP clients can use a
+  // stable, prefix-free URL. All other routes keep the `/api` prefix.
+  app.setGlobalPrefix(globalPrefix, { exclude: ['mcp'] });
 
   // Swagger
   const swaggerConfig = new DocumentBuilder()
