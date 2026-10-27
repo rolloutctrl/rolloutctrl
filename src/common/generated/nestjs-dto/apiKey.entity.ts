@@ -1,5 +1,6 @@
 import { ApiKeyType } from '../prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from './user.entity';
 import { Project } from './project.entity';
 
 export class ApiKey {
@@ -33,6 +34,17 @@ export class ApiKey {
     enumName: 'ApiKeyType',
   })
   type: ApiKeyType;
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+  })
+  userId: string | null;
+  @ApiProperty({
+    type: () => User,
+    required: false,
+    nullable: true,
+  })
+  user?: User | null;
   @ApiProperty({
     type: 'string',
     isArray: true,

@@ -6,6 +6,7 @@ import { ProjectMember } from './projectMember.entity';
 import { AuditLog } from './auditLog.entity';
 import { UserIdentity } from './userIdentity.entity';
 import { Notification } from './notification.entity';
+import { ApiKey } from './apiKey.entity';
 
 export class User {
   @ApiProperty({
@@ -36,6 +37,10 @@ export class User {
     nullable: true,
   })
   bio: string | null;
+  @ApiProperty({
+    type: 'boolean',
+  })
+  isAgent: boolean;
   @ApiProperty({
     type: 'boolean',
   })
@@ -95,4 +100,10 @@ export class User {
     required: false,
   })
   notifications?: Notification[];
+  @ApiProperty({
+    type: () => ApiKey,
+    isArray: true,
+    required: false,
+  })
+  agentApiKeys?: ApiKey[];
 }

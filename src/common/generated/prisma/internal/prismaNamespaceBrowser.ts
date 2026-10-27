@@ -125,6 +125,7 @@ export const ApiKeyScalarFieldEnum = {
   previewKey: 'previewKey',
   environmentId: 'environmentId',
   type: 'type',
+  userId: 'userId',
   allowedOrigins: 'allowedOrigins',
   createdAt: 'createdAt',
   revokedAt: 'revokedAt'
@@ -150,6 +151,7 @@ export const UserScalarFieldEnum = {
   name: 'name',
   avatar: 'avatar',
   bio: 'bio',
+  isAgent: 'isAgent',
   isActive: 'isActive',
   updatedAt: 'updatedAt',
   joinedAt: 'joinedAt',

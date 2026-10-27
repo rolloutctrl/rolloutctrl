@@ -28,6 +28,7 @@ export const MatchType = {
 export type MatchType = (typeof MatchType)[keyof typeof MatchType];
 
 export const ApiKeyType = {
+  AGENT: 'AGENT',
   CLIENT: 'CLIENT',
   SERVER: 'SERVER',
 } as const;
@@ -151,6 +152,7 @@ export type MetricType = (typeof MetricType)[keyof typeof MetricType];
 
 export const AuditAction = {
   CREATE: 'CREATE',
+  READ: 'READ',
   UPDATE: 'UPDATE',
   DELETE: 'DELETE',
   ENABLE: 'ENABLE',

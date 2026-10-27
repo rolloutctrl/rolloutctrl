@@ -30,6 +30,7 @@ export type UserMinAggregateOutputType = {
   name: string | null
   avatar: string | null
   bio: string | null
+  isAgent: boolean | null
   isActive: boolean | null
   updatedAt: Date | null
   joinedAt: Date | null
@@ -44,6 +45,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   avatar: string | null
   bio: string | null
+  isAgent: boolean | null
   isActive: boolean | null
   updatedAt: Date | null
   joinedAt: Date | null
@@ -58,6 +60,7 @@ export type UserCountAggregateOutputType = {
   name: number
   avatar: number
   bio: number
+  isAgent: number
   isActive: number
   updatedAt: number
   joinedAt: number
@@ -74,6 +77,7 @@ export type UserMinAggregateInputType = {
   name?: true
   avatar?: true
   bio?: true
+  isAgent?: true
   isActive?: true
   updatedAt?: true
   joinedAt?: true
@@ -88,6 +92,7 @@ export type UserMaxAggregateInputType = {
   name?: true
   avatar?: true
   bio?: true
+  isAgent?: true
   isActive?: true
   updatedAt?: true
   joinedAt?: true
@@ -102,6 +107,7 @@ export type UserCountAggregateInputType = {
   name?: true
   avatar?: true
   bio?: true
+  isAgent?: true
   isActive?: true
   updatedAt?: true
   joinedAt?: true
@@ -189,6 +195,7 @@ export type UserGroupByOutputType = {
   name: string | null
   avatar: string | null
   bio: string | null
+  isAgent: boolean
   isActive: boolean
   updatedAt: Date
   joinedAt: Date | null
@@ -224,6 +231,7 @@ export type UserWhereInput = {
   name?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
+  isAgent?: Prisma.BoolFilter<"User"> | boolean
   isActive?: Prisma.BoolFilter<"User"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -235,6 +243,7 @@ export type UserWhereInput = {
   auditLogs?: Prisma.AuditLogListRelationFilter
   userIdentities?: Prisma.UserIdentityListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  agentApiKeys?: Prisma.ApiKeyListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -244,6 +253,7 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAgent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -255,6 +265,7 @@ export type UserOrderByWithRelationInput = {
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   userIdentities?: Prisma.UserIdentityOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  agentApiKeys?: Prisma.ApiKeyOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -267,6 +278,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
+  isAgent?: Prisma.BoolFilter<"User"> | boolean
   isActive?: Prisma.BoolFilter<"User"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -278,6 +290,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   auditLogs?: Prisma.AuditLogListRelationFilter
   userIdentities?: Prisma.UserIdentityListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  agentApiKeys?: Prisma.ApiKeyListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -287,6 +300,7 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAgent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -307,6 +321,7 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isAgent?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   joinedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -321,6 +336,7 @@ export type UserCreateInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -331,6 +347,7 @@ export type UserCreateInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -340,6 +357,7 @@ export type UserUncheckedCreateInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -350,6 +368,7 @@ export type UserUncheckedCreateInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -359,6 +378,7 @@ export type UserUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -369,6 +389,7 @@ export type UserUpdateInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -378,6 +399,7 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -388,6 +410,7 @@ export type UserUncheckedUpdateInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -397,6 +420,7 @@ export type UserCreateManyInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -411,6 +435,7 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -424,6 +449,7 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -441,6 +467,11 @@ export type UserOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
@@ -453,6 +484,7 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  isAgent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -467,6 +499,7 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  isAgent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -481,16 +514,12 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  isAgent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   organizationRole?: Prisma.SortOrder
-}
-
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCreateNestedManyWithoutOrganizationInput = {
@@ -533,6 +562,22 @@ export type UserUncheckedUpdateManyWithoutOrganizationNestedInput = {
   update?: Prisma.UserUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.UserUpdateWithWhereUniqueWithoutOrganizationInput[]
   updateMany?: Prisma.UserUpdateManyWithWhereWithoutOrganizationInput | Prisma.UserUpdateManyWithWhereWithoutOrganizationInput[]
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserCreateNestedOneWithoutAgentApiKeysInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAgentApiKeysInput, Prisma.UserUncheckedCreateWithoutAgentApiKeysInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgentApiKeysInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAgentApiKeysNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAgentApiKeysInput, Prisma.UserUncheckedCreateWithoutAgentApiKeysInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgentApiKeysInput
+  upsert?: Prisma.UserUpsertWithoutAgentApiKeysInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAgentApiKeysInput, Prisma.UserUpdateWithoutAgentApiKeysInput>, Prisma.UserUncheckedUpdateWithoutAgentApiKeysInput>
 }
 
 export type UserCreateNestedOneWithoutProjectMembersInput = {
@@ -622,6 +667,7 @@ export type UserCreateWithoutOrganizationInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -631,6 +677,7 @@ export type UserCreateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrganizationInput = {
@@ -640,6 +687,7 @@ export type UserUncheckedCreateWithoutOrganizationInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -649,6 +697,7 @@ export type UserUncheckedCreateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrganizationInput = {
@@ -687,11 +736,108 @@ export type UserScalarWhereInput = {
   name?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
+  isAgent?: Prisma.BoolFilter<"User"> | boolean
   isActive?: Prisma.BoolFilter<"User"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   joinedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   organizationId?: Prisma.StringFilter<"User"> | string
   organizationRole?: Prisma.EnumOrganizationRoleFilter<"User"> | $Enums.OrganizationRole
+}
+
+export type UserCreateWithoutAgentApiKeysInput = {
+  id?: string
+  email: string
+  password?: string | null
+  name?: string | null
+  avatar?: string | null
+  bio?: string | null
+  isAgent?: boolean
+  isActive?: boolean
+  updatedAt?: Date | string
+  joinedAt?: Date | string | null
+  organizationRole: $Enums.OrganizationRole
+  organization: Prisma.OrganizationCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAgentApiKeysInput = {
+  id?: string
+  email: string
+  password?: string | null
+  name?: string | null
+  avatar?: string | null
+  bio?: string | null
+  isAgent?: boolean
+  isActive?: boolean
+  updatedAt?: Date | string
+  joinedAt?: Date | string | null
+  organizationId: string
+  organizationRole: $Enums.OrganizationRole
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAgentApiKeysInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAgentApiKeysInput, Prisma.UserUncheckedCreateWithoutAgentApiKeysInput>
+}
+
+export type UserUpsertWithoutAgentApiKeysInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAgentApiKeysInput, Prisma.UserUncheckedUpdateWithoutAgentApiKeysInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAgentApiKeysInput, Prisma.UserUncheckedCreateWithoutAgentApiKeysInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAgentApiKeysInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAgentApiKeysInput, Prisma.UserUncheckedUpdateWithoutAgentApiKeysInput>
+}
+
+export type UserUpdateWithoutAgentApiKeysInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organizationRole?: Prisma.EnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutUsersNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAgentApiKeysInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationRole?: Prisma.EnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProjectMembersInput = {
@@ -701,6 +847,7 @@ export type UserCreateWithoutProjectMembersInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -710,6 +857,7 @@ export type UserCreateWithoutProjectMembersInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectMembersInput = {
@@ -719,6 +867,7 @@ export type UserUncheckedCreateWithoutProjectMembersInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -728,6 +877,7 @@ export type UserUncheckedCreateWithoutProjectMembersInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectMembersInput = {
@@ -753,6 +903,7 @@ export type UserUpdateWithoutProjectMembersInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -762,6 +913,7 @@ export type UserUpdateWithoutProjectMembersInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectMembersInput = {
@@ -771,6 +923,7 @@ export type UserUncheckedUpdateWithoutProjectMembersInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -780,6 +933,7 @@ export type UserUncheckedUpdateWithoutProjectMembersInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserIdentitiesInput = {
@@ -789,6 +943,7 @@ export type UserCreateWithoutUserIdentitiesInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -798,6 +953,7 @@ export type UserCreateWithoutUserIdentitiesInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserIdentitiesInput = {
@@ -807,6 +963,7 @@ export type UserUncheckedCreateWithoutUserIdentitiesInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -816,6 +973,7 @@ export type UserUncheckedCreateWithoutUserIdentitiesInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserIdentitiesInput = {
@@ -841,6 +999,7 @@ export type UserUpdateWithoutUserIdentitiesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -850,6 +1009,7 @@ export type UserUpdateWithoutUserIdentitiesInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserIdentitiesInput = {
@@ -859,6 +1019,7 @@ export type UserUncheckedUpdateWithoutUserIdentitiesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -868,6 +1029,7 @@ export type UserUncheckedUpdateWithoutUserIdentitiesInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -877,6 +1039,7 @@ export type UserCreateWithoutSessionsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -886,6 +1049,7 @@ export type UserCreateWithoutSessionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -895,6 +1059,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -904,6 +1069,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -929,6 +1095,7 @@ export type UserUpdateWithoutSessionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -938,6 +1105,7 @@ export type UserUpdateWithoutSessionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -947,6 +1115,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -956,6 +1125,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -965,6 +1135,7 @@ export type UserCreateWithoutAuditLogsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -974,6 +1145,7 @@ export type UserCreateWithoutAuditLogsInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -983,6 +1155,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -992,6 +1165,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1017,6 +1191,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1026,6 +1201,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1035,6 +1211,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1044,6 +1221,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1053,6 +1231,7 @@ export type UserCreateWithoutNotificationsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -1062,6 +1241,7 @@ export type UserCreateWithoutNotificationsInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1071,6 +1251,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -1080,6 +1261,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   userIdentities?: Prisma.UserIdentityUncheckedCreateNestedManyWithoutUserInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1105,6 +1287,7 @@ export type UserUpdateWithoutNotificationsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1114,6 +1297,7 @@ export type UserUpdateWithoutNotificationsInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1123,6 +1307,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1132,6 +1317,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyOrganizationInput = {
@@ -1141,6 +1327,7 @@ export type UserCreateManyOrganizationInput = {
   name?: string | null
   avatar?: string | null
   bio?: string | null
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: Date | string
   joinedAt?: Date | string | null
@@ -1154,6 +1341,7 @@ export type UserUpdateWithoutOrganizationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1163,6 +1351,7 @@ export type UserUpdateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganizationInput = {
@@ -1172,6 +1361,7 @@ export type UserUncheckedUpdateWithoutOrganizationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1181,6 +1371,7 @@ export type UserUncheckedUpdateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   userIdentities?: Prisma.UserIdentityUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  agentApiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutOrganizationInput = {
@@ -1190,6 +1381,7 @@ export type UserUncheckedUpdateManyWithoutOrganizationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1207,6 +1399,7 @@ export type UserCountOutputType = {
   auditLogs: number
   userIdentities: number
   notifications: number
+  agentApiKeys: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1215,6 +1408,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   userIdentities?: boolean | UserCountOutputTypeCountUserIdentitiesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  agentApiKeys?: boolean | UserCountOutputTypeCountAgentApiKeysArgs
 }
 
 /**
@@ -1262,6 +1456,13 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAgentApiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApiKeyWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1270,6 +1471,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   avatar?: boolean
   bio?: boolean
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: boolean
   joinedAt?: boolean
@@ -1281,6 +1483,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   userIdentities?: boolean | Prisma.User$userIdentitiesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  agentApiKeys?: boolean | Prisma.User$agentApiKeysArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1291,6 +1494,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   avatar?: boolean
   bio?: boolean
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: boolean
   joinedAt?: boolean
@@ -1306,6 +1510,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   avatar?: boolean
   bio?: boolean
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: boolean
   joinedAt?: boolean
@@ -1321,6 +1526,7 @@ export type UserSelectScalar = {
   name?: boolean
   avatar?: boolean
   bio?: boolean
+  isAgent?: boolean
   isActive?: boolean
   updatedAt?: boolean
   joinedAt?: boolean
@@ -1328,7 +1534,7 @@ export type UserSelectScalar = {
   organizationRole?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "avatar" | "bio" | "isActive" | "updatedAt" | "joinedAt" | "organizationId" | "organizationRole", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "avatar" | "bio" | "isAgent" | "isActive" | "updatedAt" | "joinedAt" | "organizationId" | "organizationRole", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1336,6 +1542,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   userIdentities?: boolean | Prisma.User$userIdentitiesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  agentApiKeys?: boolean | Prisma.User$agentApiKeysArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1354,6 +1561,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     userIdentities: Prisma.$UserIdentityPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    agentApiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1362,6 +1570,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string | null
     avatar: string | null
     bio: string | null
+    isAgent: boolean
     isActive: boolean
     updatedAt: Date
     joinedAt: Date | null
@@ -1767,6 +1976,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userIdentities<T extends Prisma.User$userIdentitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  agentApiKeys<T extends Prisma.User$agentApiKeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$agentApiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1802,6 +2012,7 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
+  readonly isAgent: Prisma.FieldRef<"User", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly joinedAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -2325,6 +2536,30 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.agentApiKeys
+ */
+export type User$agentApiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApiKey
+   */
+  select?: Prisma.ApiKeySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApiKey
+   */
+  omit?: Prisma.ApiKeyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApiKeyInclude<ExtArgs> | null
+  where?: Prisma.ApiKeyWhereInput
+  orderBy?: Prisma.ApiKeyOrderByWithRelationInput | Prisma.ApiKeyOrderByWithRelationInput[]
+  cursor?: Prisma.ApiKeyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApiKeyScalarFieldEnum | Prisma.ApiKeyScalarFieldEnum[]
 }
 
 /**

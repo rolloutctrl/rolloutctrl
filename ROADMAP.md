@@ -6,6 +6,8 @@ The following items are planned for future releases. Priorities may change based
 
 - [x] Backend test coverage (unit and integration tests)
 - [x] Mobile-responsive dashboard UI
+- [x] AI agent integration (MCP server / tool-friendly API for managing flags, variants, and strategies from LLM agents)
+- [x] Audit log improvements
 - [ ] Vue SDK
 - [ ] Go SDK
 - [ ] Python SDK
@@ -18,5 +20,3 @@ The following items are planned for future releases. Priorities may change based
 - [ ] Slack notifications
 - [ ] Telegram notifications
 - [ ] Webhooks for feature flag events
-- [ ] Audit log improvements
-- [ ] AI agent integration (MCP server / tool-friendly API for managing flags, variants, and strategies from LLM agents)

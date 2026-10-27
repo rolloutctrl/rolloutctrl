@@ -10,5 +10,6 @@ import { AuditLogModule } from '../audit-log/audit-log.module';
   imports: [PrismaModule, AccessModule, EnvironmentModule, AuditLogModule],
   providers: [SegmentService],
   controllers: [SegmentController],
+  exports: [SegmentService],
 })
 export class SegmentModule {}

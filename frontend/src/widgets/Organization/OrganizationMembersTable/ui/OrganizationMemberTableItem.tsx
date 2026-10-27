@@ -13,6 +13,7 @@ import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react';
 import { RequiredProjectPermissionsWrapper } from '@/features/Auth/PrivateRoute';
 import { OrganizationRole, PermissionCode } from '@/shared/types/enums';
 import type { User } from '@/entities/User';
+import { truncateString } from '@/shared/utils/truncateString';
 
 type OrganizationMemberTableItemProps = {
   member: User;
@@ -52,7 +53,7 @@ export const OrganizationMemberTableItem = ({
             </div>
 
             <Text c="dimmed" size="xs">
-              {member?.email}
+              {truncateString(member?.email, 24)}
             </Text>
           </div>
         </Group>
@@ -95,6 +96,7 @@ export const OrganizationMemberTableItem = ({
               <Menu.Item
                 leftSection={<IconPencil size={14} />}
                 onClick={() => onEditMember(member)}
+                disabled={member.isAgent}
               >
                 Edit
               </Menu.Item>

@@ -69,7 +69,7 @@ export const ProjectNavBar = () => {
       needPermission: PermissionCode.PROJECT_UPDATE,
     },
     {
-      label: 'API Keys',
+      label: 'API Keys & MCP',
       icon: IconApi,
       link: `/project/${projectId}/api-keys`,
       needPermission: PermissionCode.API_KEY_READ,

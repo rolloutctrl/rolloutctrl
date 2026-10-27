@@ -10,5 +10,6 @@ import { EnvironmentModule } from '../environment/environment.module';
   imports: [PrismaModule, AccessModule, AuditLogModule, EnvironmentModule],
   providers: [ActionService],
   controllers: [ActionController],
+  exports: [ActionService],
 })
 export class ActionModule {}

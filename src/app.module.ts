@@ -25,6 +25,7 @@ import { MetricsModule } from './modules/metrics/metrics.module';
 import { AuditLogModule } from './modules/audit-log/audit-log.module';
 import { SdkModule } from './modules/sdk/sdk.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { McpModule } from './modules/mcp/mcp.module';
 import { IoRedisThrottlerStorage } from './common/throttler/ioredis-throttler.storage';
 import { ThrottlerStorage } from '@nestjs/throttler';
 
@@ -90,6 +91,7 @@ import { ThrottlerStorage } from '@nestjs/throttler';
     AuditLogModule,
     SdkModule,
     NotificationModule,
+    McpModule,
   ],
   controllers: [AppController],
   providers: [
