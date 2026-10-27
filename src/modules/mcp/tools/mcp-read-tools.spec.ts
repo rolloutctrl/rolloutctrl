@@ -43,6 +43,7 @@ describe('MCP read-only tools (Task 4)', () => {
     return {
       user: { id: 'agent_user_1' } as any,
       scope: { projectId: 'proj_1', projectSlug: null, environmentId: null },
+      apiKeyPreview: 'rctrl-agent-test',
       ...overrides,
     };
   }

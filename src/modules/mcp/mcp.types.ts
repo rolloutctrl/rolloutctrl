@@ -43,6 +43,13 @@ export interface McpRequestContext {
    * calling services.
    */
   scope: McpClientScope;
+  /**
+   * Preview of the AGENT API key used to authenticate this request
+   * (truncated `rctrl-agent-…` form, stored as `ApiKey.previewKey`).
+   * Propagated into MCP audit logs so it is clear which key was used for
+   * any given action.
+   */
+  apiKeyPreview: string;
 }
 
 /**

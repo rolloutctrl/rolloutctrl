@@ -16,6 +16,7 @@ describe('McpPermissions', () => {
         projectSlug: 'proj-1',
         environmentId: null,
       },
+      apiKeyPreview: 'rctrl-agent-test',
       ...overrides,
     };
   }

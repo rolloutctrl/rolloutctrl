@@ -36,6 +36,7 @@ describe('MCP mutation tools (Task 5)', () => {
     return {
       user: { id: 'agent_user_1' } as any,
       scope: { projectId: 'proj_1', projectSlug: null, environmentId: null },
+      apiKeyPreview: 'rctrl-agent-test',
       ...overrides,
     };
   }

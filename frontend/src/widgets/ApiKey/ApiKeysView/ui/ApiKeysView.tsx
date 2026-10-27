@@ -4,6 +4,7 @@ import { RequiredProjectPermissionsWrapper } from '@/features/Auth/PrivateRoute'
 import { PermissionCode } from '@/shared/types/enums';
 import { GenerateApiKeyButton } from '@/features/ApiKey/GenerateApiKey';
 import { ApiKeysTable } from '../../ApiKeysTable';
+import { McpSetupGuide } from './McpSetupGuide';
 
 export const ApiKeysView = () => {
   return (
@@ -24,6 +25,9 @@ export const ApiKeysView = () => {
             <ApiKeysTable />
           </Grid.Col>
         </Paper>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <McpSetupGuide />
       </Grid.Col>
     </Grid>
   );

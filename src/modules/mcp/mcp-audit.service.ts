@@ -20,6 +20,12 @@ export interface McpAuditEntry {
   projectId?: string;
   /** Organization id resolved from the project (best-effort). */
   organizationId?: string;
+  /**
+   * Preview of the AGENT API key used to authenticate the request
+   * (`ApiKey.previewKey`, truncated `rctrl-agent-…` form). Stored in the
+   * audit metadata so it is clear which key was used for the action.
+   */
+  apiKeyPreview: string;
   /** `true` if the handler succeeded, `false` if it threw. */
   success: boolean;
   /** Error message when `success` is false. */
@@ -74,6 +80,7 @@ export class McpAuditService {
               ...(entry.error ? { error: entry.error } : {}),
               durationMs: entry.durationMs,
               timestamp: entry.timestamp,
+              apiKeyPreview: entry.apiKeyPreview,
             },
           },
         },

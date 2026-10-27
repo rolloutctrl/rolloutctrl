@@ -70,6 +70,7 @@ describe('McpAuthGuard', () => {
         projectId: true,
         environmentId: true,
         userId: true,
+        previewKey: true,
         project: { select: { slug: true } },
       }),
     });
@@ -81,6 +82,7 @@ describe('McpAuthGuard', () => {
       projectId: 'proj_1',
       environmentId: null,
       userId: null,
+      previewKey: 'rctrl-agent-abc…',
       project: { slug: 'proj-1' },
     });
 
@@ -95,6 +97,7 @@ describe('McpAuthGuard', () => {
       projectId: 'proj_1',
       environmentId: null,
       userId: 'agent_user_1',
+      previewKey: 'rctrl-agent-abc…',
       project: { slug: 'proj-1' },
     });
     prisma.user.findUnique.mockResolvedValueOnce({
@@ -114,6 +117,7 @@ describe('McpAuthGuard', () => {
       projectId: 'proj_1',
       environmentId: null,
       userId: 'agent_user_1',
+      previewKey: 'rctrl-agent-abc…',
       project: { slug: 'proj-1' },
     });
     prisma.user.findUnique.mockResolvedValueOnce({
@@ -140,6 +144,7 @@ describe('McpAuthGuard', () => {
       projectId: 'proj_1',
       environmentId: 'env_1',
       userId: 'agent_user_1',
+      previewKey: 'rctrl-agent-abc123',
       project: { slug: 'proj-1' },
     });
     prisma.user.findUnique.mockResolvedValueOnce(agentUser);
@@ -152,12 +157,13 @@ describe('McpAuthGuard', () => {
     expect(result).toBe(true);
     // User attached in the same shape JwtStrategy produces.
     expect(req.user).toEqual({ user: agentUser });
-    // Scope attached with the key's project (id + slug).
+    // Scope attached with the key's project (id + slug) and apiKeyPreview.
     expect(req.mcpApiKey).toEqual({
       id: 'key_1',
       projectId: 'proj_1',
       projectSlug: 'proj-1',
       environmentId: 'env_1',
+      apiKeyPreview: 'rctrl-agent-abc123',
     });
   });
 });

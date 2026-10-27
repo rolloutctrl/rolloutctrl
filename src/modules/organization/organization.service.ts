@@ -220,6 +220,10 @@ export class OrganizationService {
       throw new NotFoundException('User not found');
     }
 
+    if (user.isAgent) {
+      throw new BadRequestException('Agent users can only be deleted');
+    }
+
     if (
       user.organizationRole === OrganizationRole.OWNER &&
       dto.role !== OrganizationRole.OWNER
@@ -366,6 +370,18 @@ export class OrganizationService {
       if (orgProjectIds.length > 0) {
         await tx.projectMember.deleteMany({
           where: { userId: targetUserId, projectId: { in: orgProjectIds } },
+        });
+      }
+
+      // For agent users, revoke every AGENT API key linked to them. Agent
+      // keys act on behalf of this user, so removing the user invalidates
+      // all keys bound to it (the McpAuthGuard rejects keys whose linked
+      // user is missing/inactive, but revoking makes the state explicit
+      // and prevents reuse if the user is later restored).
+      if (targetUser.isAgent) {
+        await tx.apiKey.updateMany({
+          where: { userId: targetUserId, revokedAt: null },
+          data: { revokedAt: new Date() },
         });
       }
 

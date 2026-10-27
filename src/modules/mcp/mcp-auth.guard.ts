@@ -47,6 +47,7 @@ export class McpAuthGuard implements CanActivate {
         projectId: true,
         environmentId: true,
         userId: true,
+        previewKey: true,
         project: { select: { slug: true } },
       },
     });
@@ -76,6 +77,7 @@ export class McpAuthGuard implements CanActivate {
       projectId: apiKeyRecord.projectId,
       projectSlug: apiKeyRecord.project?.slug ?? null,
       environmentId: apiKeyRecord.environmentId,
+      apiKeyPreview: apiKeyRecord.previewKey,
     };
 
     return true;

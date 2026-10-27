@@ -62,6 +62,7 @@ describe('McpController', () => {
             projectId: 'proj_1',
             projectSlug: 'proj-1',
             environmentId: null,
+            apiKeyPreview: 'rctrl-agent-abc123',
           };
           return true;
         },
@@ -104,7 +105,12 @@ describe('McpController', () => {
         params: { protocolVersion: '2025-11-25', capabilities: {} },
       },
       { user: { id: 'agent_user_1', isAgent: true } },
-      { projectId: 'proj_1', projectSlug: 'proj-1', environmentId: null },
+      {
+        projectId: 'proj_1',
+        projectSlug: 'proj-1',
+        environmentId: null,
+        apiKeyPreview: 'rctrl-agent-abc123',
+      },
     );
 
     await controller.handle(req, res);
@@ -118,6 +124,7 @@ describe('McpController', () => {
       projectSlug: 'proj-1',
       environmentId: null,
     });
+    expect(ctx.apiKeyPreview).toBe('rctrl-agent-abc123');
 
     // Transport.handleRequest called with req, res, parsed body.
     expect(handleRequest).toHaveBeenCalledWith(req, res, req.body);
@@ -132,7 +139,12 @@ describe('McpController', () => {
     const { req, res } = mockReqRes(
       { method: 'initialize' },
       { user: { id: 'agent_user_1' } },
-      { projectId: 'proj_1', projectSlug: 'proj-1', environmentId: null },
+      {
+        projectId: 'proj_1',
+        projectSlug: 'proj-1',
+        environmentId: null,
+        apiKeyPreview: 'rctrl-agent-abc123',
+      },
     );
 
     await controller.handle(req, res);

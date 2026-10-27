@@ -129,6 +129,7 @@ export class ToolRegistry {
                 userId: ctx.user.id,
                 projectId,
                 organizationId,
+                apiKeyPreview: ctx.apiKeyPreview,
                 success,
                 ...(errorMessage ? { error: errorMessage } : {}),
                 durationMs,

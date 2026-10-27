@@ -124,6 +124,13 @@ docker compose -f docker-compose.selfhost.yml up -d --build
 # API:      http://localhost:8080/api
 ```
 
+To pull the latest published images and restart the stack without a local build:
+
+```bash
+docker compose -f docker-compose.selfhost.yml pull
+docker compose -f docker-compose.selfhost.yml up -d
+```
+
 ---
 
 ## Documentation

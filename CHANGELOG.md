@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-10-27
+
+### Added
+
+* **MCP (Model Context Protocol) interface** — a new Streamable HTTP endpoint at `/mcp` (stateless, JSON-RPC 2.0) that lets external AI agents manage feature flags, rollout strategies, variants, segments, and access actions by reusing the existing NestJS business logic, validation, authorization, and audit trail.
+  * New `McpModule` with `McpController`, `McpAuthGuard`, `McpServerFactory`, and a tool registry exposing read/mutation tools for flags, strategies, variants, segments, actions, and audit logs.
+  * Tools are scoped to the API key's project (and optional environment), with permission checks enforced via `McpPermissions` and a dry-run helper for mutation tools.
+  * Dedicated audit service (`McpAuditService`) records all MCP operations against an auto-provisioned agent user.
+  * Full test coverage for the guard, controller, permissions, and tool suites (`mcp-auth.guard.spec.ts`, `mcp.controller.spec.ts`, `mcp.permissions.spec.ts`, `mcp-mutation-tools.spec.ts`, `mcp-read-tools.spec.ts`, `mcp-security.spec.ts`).
+  * End-user guide `docs/MCP_GUIDE.md` and internal architecture overview `docs/MCP_ARCHITECTURE.md`.
+* **`AGENT` API key type** — a new API key type (alongside `CLIENT` and `SERVER`) for authenticating MCP requests. AGENT keys are project-scoped, optionally environment-pinned, prefixed with `rctrl-agent-`, and hashed (SHA-256) on lookup. Creating an AGENT key auto-provisions a dedicated agent user (`isAgent: true`) added as a `DEVELOPER` member of the project, serving as the audit actor for MCP operations.
+  * Prisma schema + migration adding the `AGENT` enum value and `isAgent` flag on `User`.
+  * `ApiKeyService` updated to issue, validate, and scope AGENT keys.
+  * Frontend `GenerateApiKeyForm` updated to support selecting the AGENT key type.
+
 ## [1.3.1] - 2026-10-14
 
 ### Fixed

@@ -51,6 +51,7 @@ export class McpController {
         projectSlug: mcpApiKey.projectSlug ?? null,
         environmentId: mcpApiKey.environmentId,
       },
+      apiKeyPreview: mcpApiKey.apiKeyPreview,
     };
 
     const handle = await this.serverFactory.create(ctx);

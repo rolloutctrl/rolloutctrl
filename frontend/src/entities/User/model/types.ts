@@ -7,6 +7,7 @@ export type User = {
   email: string;
   name: string;
   isActive: boolean;
+  isAgent: boolean;
   avatar: string;
   bio?: string;
   joinedAt: Nullable<string>;

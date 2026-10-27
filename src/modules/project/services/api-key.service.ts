@@ -6,6 +6,8 @@ import {
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
+import { createAvatar } from '@dicebear/core';
+import * as shapes from '@dicebear/shapes';
 import {
   ApiKey,
   ApiKeyType,
@@ -92,9 +94,16 @@ export class ApiKeyService {
       const agentUser = await this.createAgentUser(project.organizationId);
       agentUserId = agentUser.id;
 
-      // Add the agent user as a DEVELOPER member of the key's project.
-      await this.prisma.projectMember.create({
-        data: {
+      // Add the agent user as a DEVELOPER member of the key's project. The
+      // agent user is reused across all AGENT keys in an organization, so it
+      // may already be a member of this project from a previous key — use
+      // upsert to keep the membership idempotent.
+      await this.prisma.projectMember.upsert({
+        where: {
+          projectId_userId: { projectId: project.id, userId: agentUser.id },
+        },
+        update: {},
+        create: {
           projectId: project.id,
           userId: agentUser.id,
           role: TeamRole.DEVELOPER,
@@ -142,26 +151,41 @@ export class ApiKeyService {
   }
 
   /**
-   * Provision a dedicated agent user for an AGENT API key.
+   * Provision (or reuse) a dedicated agent user for an AGENT API key.
    *
-   * The user has `isAgent: true`, a generated email of the form
-   * `agent[N]@rolloutctrl.local` (uniquely numbered within the organization's
-   * domain) and a random password (agents never log in via password — they
-   * authenticate via the API key). The user is a MEMBER of the organization.
+   * All AGENT keys within an organization share a single agent user, which
+   * acts as the audit actor for MCP operations performed with those keys.
+   * If an active agent user already exists in the organization, it is
+   * reused; otherwise a new one is created with `isAgent: true`, a generated
+   * email of the form `agent-{uuid}@rolloutctrl.local` and a random password
+   * (agents never log in via password — they authenticate via the API key).
+   * The user is a MEMBER of the organization.
    */
   private async createAgentUser(organizationId: string) {
+    // Reuse an existing active agent user in the same organization if one
+    // exists. All AGENT keys in an organization share a single agent user.
+    const existingAgent = await this.prisma.user.findFirst({
+      where: {
+        isAgent: true,
+        isActive: true,
+        organizationId,
+      },
+    });
+    if (existingAgent) {
+      return existingAgent;
+    }
+
     const password = crypto.randomBytes(32).toString('hex');
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Generate a unique agent email within the domain. We count existing
-    // agent users to produce `agent`, `agent1`, `agent2`, ... The base name
-    // is "Agent", "Agent 1", "Agent 2", ... to match.
-    const existingAgents = await this.prisma.user.count({
-      where: { isAgent: true, email: { endsWith: `@${AGENT_EMAIL_DOMAIN}` } },
-    });
-    const suffix = existingAgents === 0 ? '' : String(existingAgents);
-    const email = `agent${suffix}@${AGENT_EMAIL_DOMAIN}`;
-    const name = existingAgents === 0 ? 'Agent' : `Agent ${existingAgents}`;
+    // Generate a unique agent email within the domain using a UUID, so the
+    // email is guaranteed unique without counting existing agents.
+    const uuid = crypto.randomUUID();
+    const email = `agent-${uuid}@${AGENT_EMAIL_DOMAIN}`;
+    const name = 'Agent';
+
+    const avatar = createAvatar(shapes, { seed: email });
+    const avatarSvg = avatar.toDataUri();
 
     return this.prisma.user.create({
       data: {
@@ -171,6 +195,8 @@ export class ApiKeyService {
         isAgent: true,
         organizationId,
         organizationRole: OrganizationRole.MEMBER,
+        avatar: avatarSvg,
+        joinedAt: new Date(),
       },
     });
   }
